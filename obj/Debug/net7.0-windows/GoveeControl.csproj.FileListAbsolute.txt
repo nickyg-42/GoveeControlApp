@@ -1,0 +1,15 @@
+C:\Z\Projects\GoveeControl\bin\Debug\net7.0-windows\GoveeControl.exe
+C:\Z\Projects\GoveeControl\bin\Debug\net7.0-windows\GoveeControl.deps.json
+C:\Z\Projects\GoveeControl\bin\Debug\net7.0-windows\GoveeControl.runtimeconfig.json
+C:\Z\Projects\GoveeControl\bin\Debug\net7.0-windows\GoveeControl.dll
+C:\Z\Projects\GoveeControl\bin\Debug\net7.0-windows\GoveeControl.pdb
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.csproj.AssemblyReference.cache
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.GeneratedMSBuildEditorConfig.editorconfig
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.AssemblyInfoInputs.cache
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.AssemblyInfo.cs
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.csproj.CoreCompileInputs.cache
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.dll
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\refint\GoveeControl.dll
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.pdb
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\GoveeControl.genruntimeconfig.cache
+C:\Z\Projects\GoveeControl\obj\Debug\net7.0-windows\ref\GoveeControl.dll
