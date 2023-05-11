@@ -1,3 +1,5 @@
+using GoveeControl.Services;
+
 namespace GoveeControl;
 
 static class Program
@@ -6,11 +8,16 @@ static class Program
     ///  The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    static async Task Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
+        // Create services
+        var goveeHttpClient = GoveeHttpClient.Instance;
+        var requestService = new RequestService(goveeHttpClient);
+        var jsonRespoonseService = new JsonResponseService();
+        var goveeClient = new GoveeClient(requestService, jsonRespoonseService);
+        var goveeService = new GoveeService(goveeClient);
+
         ApplicationConfiguration.Initialize();
-        Application.Run(new Home());
+        Application.Run(new Home(goveeService));
     }    
 }

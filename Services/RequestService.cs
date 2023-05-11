@@ -9,21 +9,21 @@ namespace GoveeControl.Services
 {
     public class RequestService : IRequestService
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _goveeHttpClient;
 
-        public RequestService(HttpClient httpClient)
+        public RequestService(HttpClient goveeClient)
         {
-            _httpClient = httpClient;
+            _goveeHttpClient = goveeClient;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await _httpClient.GetAsync(url);
+            return await _goveeHttpClient.GetAsync(url);
         }
 
         public async Task<HttpResponseMessage> PostAsync(string url, HttpContent payload)
         {
-            return await _httpClient.PostAsync(url, payload);
+            return await _goveeHttpClient.PostAsync(url, payload);
         }
     }
 }
