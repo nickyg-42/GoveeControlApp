@@ -1,1 +1,25 @@
 notes.txt
+# Build artifacts
+bin/
+obj/
+
+# .NET Core
+*.dll
+*.exe
+*.pdb
+*.user
+
+# Visual Studio
+.vs/
+*.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.psess
+*.vsp
+*.vssscc
+*.dll.refresh
+*.gpState
+UpgradeLog.xml
