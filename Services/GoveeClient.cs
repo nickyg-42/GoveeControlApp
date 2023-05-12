@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using GoveeControl.Interfaces;
+using GoveeControl.Models;
 using Newtonsoft.Json;
 
 namespace GoveeControl.Services
@@ -23,7 +24,8 @@ namespace GoveeControl.Services
             _responseService = responseService;
             _headers = new Dictionary<string, string>
             {
-                { "Content-Type", "application/json" },
+                // unsure why this causes an error as of now commenting it works
+                //{ "Content-Type", "application/json" },
                 { "Govee-API-Key", apiKey },
             };
         }
@@ -42,12 +44,11 @@ namespace GoveeControl.Services
         /// <summary>
         /// Method to turn device off
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> TurnDeviceOff(string deviceId, string model)
+        public async Task<HttpResponseMessage> TurnDeviceOff(GoveeDevice device)
         {
-            string payload = CreatePayload(deviceId, model, new
+            string payload = CreatePayload(device, new
             {
                 name = "turn",
                 value = "off"
@@ -55,18 +56,17 @@ namespace GoveeControl.Services
 
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
-            return await MakeRequest("/control", HttpMethod.Put, body);
+            return await MakeRequest("/devices/control", HttpMethod.Put, body);
         }
 
         /// <summary>
         /// Method to turn device on
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> TurnDeviceOn(string deviceId, string model)
+        public async Task<HttpResponseMessage> TurnDeviceOn(GoveeDevice device)
         {
-            string payload = CreatePayload(deviceId, model, new
+            string payload = CreatePayload(device, new
             {
                 name = "turn",
                 value = "on"
@@ -74,22 +74,21 @@ namespace GoveeControl.Services
 
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
-            return await MakeRequest("/control", HttpMethod.Put, body);
+            return await MakeRequest("/devices/control", HttpMethod.Put, body);
         }
 
         /// <summary>
         /// Method to set device color
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <param name="rVal">The "red" pixel value</param>
         /// <param name="gVal">The "greem" pixel value</param>
         /// <param name="bVal">The "blue" pixel value</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> ChangeColor(string deviceId, string model, double rVal, double gVal, double bVal)
+        public async Task<HttpResponseMessage> ChangeColor(GoveeDevice device, double rVal, double gVal, double bVal)
         {
             // r, g, and b can be 0-255
-            string payload = CreatePayload(deviceId, model, new
+            string payload = CreatePayload(device, new
             {
                 name = "color",
                 value = new
@@ -102,20 +101,19 @@ namespace GoveeControl.Services
 
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
-            return await MakeRequest("/control", HttpMethod.Put, body);
+            return await MakeRequest("/devices/control", HttpMethod.Put, body);
         }
 
         /// <summary>
         /// Method to set device brightness
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <param name="brightness">The desired brightness value</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> ChangeBrightness(string deviceId, string model, double brightness)
+        public async Task<HttpResponseMessage> ChangeBrightness(GoveeDevice device, double brightness)
         {
             // brightness can be 0-100
-            string payload = CreatePayload(deviceId, model, new
+            string payload = CreatePayload(device, new
             {
                 name = "brightness",
                 value = brightness
@@ -123,18 +121,17 @@ namespace GoveeControl.Services
 
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
-            return await MakeRequest("/control", HttpMethod.Put, body);
+            return await MakeRequest("/devices/control", HttpMethod.Put, body);
         }
 
         /// <summary>
         /// Method to get device state
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> GetDeviceState(string deviceId, string model)
+        public async Task<HttpResponseMessage> GetDeviceState(GoveeDevice device)
         {
-            string payload = CreatePayload(deviceId, model);
+            string payload = CreatePayload(device);
 
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
@@ -144,16 +141,15 @@ namespace GoveeControl.Services
         /// <summary>
         /// Overloaded helper method to create payloads that takes in a cmd parameter
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <param name="cmd">An object containing the commands to execute</param>
         /// <returns></returns>
-        private static string CreatePayload(string deviceId, string model, object cmd)
+        private static string CreatePayload(GoveeDevice device, object cmd)
         {
             string payload = $@"
             {{
-                ""device"": ""{deviceId}"",
-                ""model"": ""{model}"",
+                ""device"": ""{device.DeviceId}"",
+                ""model"": ""{device.Model}"",
                 ""cmd"": {JsonConvert.SerializeObject(cmd)}
             }}
             ";
@@ -164,15 +160,14 @@ namespace GoveeControl.Services
         /// <summary>
         /// Helper method to create payloads
         /// </summary>
-        /// <param name="deviceId">The device MAC address</param>
-        /// <param name="model">The model name</param>
+        /// <param name="device">The Govee device object</param>
         /// <returns>The created payload as a string</returns>
-        private static string CreatePayload(string deviceId, string model)
+        private static string CreatePayload(GoveeDevice device)
         {
             string payload = $@"
             {{
-                ""device"": ""{deviceId}"",
-                ""model"": ""{model}""
+                ""device"": ""{device.DeviceId}"",
+                ""model"": ""{device.Model}""
             }}
             ";
 
@@ -188,7 +183,7 @@ namespace GoveeControl.Services
         /// <returns>The response from the request</returns>
         private async Task<HttpResponseMessage> MakeRequest(string endpoint, HttpMethod method, HttpContent content)
         {
-            string fullUrl = $"{_baseUrl}/{endpoint}";
+            string fullUrl = $"{_baseUrl}{endpoint}";
 
             return await _requestService.SendAsync(fullUrl, _headers, method, content);
         }

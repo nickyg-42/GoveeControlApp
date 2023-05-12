@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using GoveeControl.Interfaces;
+﻿using GoveeControl.Interfaces;
+using GoveeControl.Models;
 
 namespace GoveeControl.Services
 {
@@ -17,45 +17,43 @@ namespace GoveeControl.Services
             return await _goveeClient.GetDevices();
         }
 
-        public async Task<HttpResponseMessage> GetDeviceState(string deviceId, string model)
+        public async Task<HttpResponseMessage> GetDeviceState(GoveeDevice device)
         {
-            return await _goveeClient.GetDeviceState(deviceId, model);
+            return await _goveeClient.GetDeviceState(device);
         }
 
-        public async Task<HttpResponseMessage> TurnDeviceOn(string deviceId, string model)
+        public async Task<HttpResponseMessage> TurnDeviceOn(GoveeDevice device)
         {
-            return await _goveeClient.TurnDeviceOn(deviceId, model);
+            return await _goveeClient.TurnDeviceOn(device);
         }
 
-        public async Task<HttpResponseMessage> TurnDeviceOff(string deviceId, string model)
+        public async Task<HttpResponseMessage> TurnDeviceOff(GoveeDevice device)
         {
-            return await _goveeClient.TurnDeviceOn(deviceId, model);
+            return await _goveeClient.TurnDeviceOff(device);
         }
 
-        public async Task<HttpResponseMessage> SetDeviceColor(string deviceId, double r, double g, double b, string model)
+        public async Task<HttpResponseMessage> SetDeviceColor(GoveeDevice device, double r, double g, double b)
         {
-            return await _goveeClient.ChangeColor(deviceId, model, r, g, b);
+            return await _goveeClient.ChangeColor(device, r, g, b);
         }
 
-        public async Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness, string model)
+        public async Task<HttpResponseMessage> SetDeviceBrightness(GoveeDevice device, double brightness)
         {
-            return await _goveeClient.ChangeBrightness(deviceId, model, brightness);
+            return await _goveeClient.ChangeBrightness(device, brightness);
         }
 
-        public async void TurnAllDevicesOff(Dictionary<string, string> deviceIdAndModelPairs)
+        public async Task<List<HttpResponseMessage>> TurnAllDevicesOff(List<GoveeDevice> devices)
         {
-            foreach (var device in deviceIdAndModelPairs)
-            {
-                await _goveeClient.TurnDeviceOff(device.Key, device.Value);
-            }
+            var tasks = devices.Select(device => _goveeClient.TurnDeviceOff(device)).ToList();
+            await Task.WhenAll(tasks);
+            return tasks.Select(task => task.Result).ToList();
         }
 
-        public async void TurnAllDevicesOn(Dictionary<string, string> deviceIdAndModelPairs)
+        public async Task<List<HttpResponseMessage>> TurnAllDevicesOn(List<GoveeDevice> devices)
         {
-            foreach (var device in deviceIdAndModelPairs)
-            {
-                await _goveeClient.TurnDeviceOn(device.Key, device.Value);
-            }
+            var tasks = devices.Select(device => _goveeClient.TurnDeviceOn(device)).ToList();
+            await Task.WhenAll(tasks);
+            return tasks.Select(task => task.Result).ToList();
         }
     }
 }

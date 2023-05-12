@@ -11,7 +11,7 @@ static class Program
     static async Task Main()
     {
         // TODO: Get API KEY from user
-        string apiKey = "";
+        string apiKey = "86a3523d-fb06-4d9e-b0c0-2ffb77d1f749";
 
         // Create services
         var goveeHttpClient = GoveeHttpClient.Instance;
