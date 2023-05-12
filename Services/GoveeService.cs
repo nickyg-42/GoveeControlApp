@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GoveeControl.Interfaces;
+﻿using GoveeControl.Interfaces;
 
 namespace GoveeControl.Services
 {
@@ -26,17 +21,7 @@ namespace GoveeControl.Services
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseMessage> SetDeviceColor(string deviceId, Color color)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<HttpResponseMessage> SetDevicePowerState(string deviceId, bool isOn)
+        public Task<HttpResponseMessage> TurnDeviceOn(string deviceId)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +31,22 @@ namespace GoveeControl.Services
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> TurnDeviceOn(string deviceId)
+        public Task<HttpResponseMessage> SetDeviceColor(string deviceId, Color color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> TurnAllDevicesOff(List<string> deviceIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> TurnAllDevicesOn(List<string> deviceIds)
         {
             throw new NotImplementedException();
         }

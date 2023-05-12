@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GoveeControl.Services;
-
-namespace GoveeControl.Interfaces
+﻿namespace GoveeControl.Interfaces
 {
     public interface IGoveeService
     {
@@ -15,7 +8,8 @@ namespace GoveeControl.Interfaces
         Task<HttpResponseMessage> TurnDeviceOff(string deviceId);
         Task<HttpResponseMessage> SetDeviceColor(string deviceId, Color color);
         Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness);
-        Task<HttpResponseMessage> SetDevicePowerState(string deviceId, bool isOn);
+        Task<HttpResponseMessage> TurnAllDevicesOff(List<string> deviceIds);
+        Task<HttpResponseMessage> TurnAllDevicesOn(List<string> deviceIds);
     }
-
 }
+ 

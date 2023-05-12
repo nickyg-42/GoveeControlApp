@@ -10,11 +10,14 @@ static class Program
     [STAThread]
     static async Task Main()
     {
+        // TODO: Get API KEY from user
+        string apiKey = "";
+
         // Create services
         var goveeHttpClient = GoveeHttpClient.Instance;
         var requestService = new RequestService(goveeHttpClient);
-        var jsonRespoonseService = new JsonResponseService();
-        var goveeClient = new GoveeClient(requestService, jsonRespoonseService);
+        var jsonResponseService = new JsonResponseService();
+        var goveeClient = new GoveeClient(requestService, jsonResponseService, apiKey);
         var goveeService = new GoveeService(goveeClient);
 
         ApplicationConfiguration.Initialize();

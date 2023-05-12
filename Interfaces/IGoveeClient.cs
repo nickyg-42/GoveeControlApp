@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GoveeControl.Services;
-
-namespace GoveeControl.Interfaces
+﻿namespace GoveeControl.Interfaces
 {
     public interface IGoveeClient
     {
-        Task<HttpResponseMessage> TurnOn(string deviceId);
-        Task<HttpResponseMessage> TurnOff(string deviceId);
-        Task<HttpResponseMessage> ChangeBrightness(string deviceId, double brightness);
-        Task<HttpResponseMessage> ChangeColor(string deviceId, double r, double g, double b);
+        Task<HttpResponseMessage> GetDevices();
+        Task<HttpResponseMessage> TurnDeviceOff(string deviceId, string model);
+        Task<HttpResponseMessage> TurnDeviceOn(string deviceId, string model);
+        Task<HttpResponseMessage> ChangeColor(string deviceId, string model, double r, double g, double b);
+        Task<HttpResponseMessage> ChangeBrightness(string deviceId, string model, double brightness);
+        Task<HttpResponseMessage> GetDeviceState(string deviceId, string model);
     }
 }
