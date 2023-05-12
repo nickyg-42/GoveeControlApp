@@ -1,4 +1,5 @@
-﻿using GoveeControl.Interfaces;
+﻿using System.Reflection;
+using GoveeControl.Interfaces;
 
 namespace GoveeControl.Services
 {
@@ -11,44 +12,50 @@ namespace GoveeControl.Services
             _goveeClient = goveeClient;
         }
 
-        public Task<HttpResponseMessage> GetDevices()
+        public async Task<HttpResponseMessage> GetDevices()
         {
-            throw new NotImplementedException();
+            return await _goveeClient.GetDevices();
         }
 
-        public Task<HttpResponseMessage> GetDeviceState(string deviceId)
+        public async Task<HttpResponseMessage> GetDeviceState(string deviceId, string model)
         {
-            throw new NotImplementedException();
+            return await _goveeClient.GetDeviceState(deviceId, model);
         }
 
-        public Task<HttpResponseMessage> TurnDeviceOn(string deviceId)
+        public async Task<HttpResponseMessage> TurnDeviceOn(string deviceId, string model)
         {
-            throw new NotImplementedException();
+            return await _goveeClient.TurnDeviceOn(deviceId, model);
         }
 
-        public Task<HttpResponseMessage> TurnDeviceOff(string deviceId)
+        public async Task<HttpResponseMessage> TurnDeviceOff(string deviceId, string model)
         {
-            throw new NotImplementedException();
+            return await _goveeClient.TurnDeviceOn(deviceId, model);
         }
 
-        public Task<HttpResponseMessage> SetDeviceColor(string deviceId, Color color)
+        public async Task<HttpResponseMessage> SetDeviceColor(string deviceId, double r, double g, double b, string model)
         {
-            throw new NotImplementedException();
+            return await _goveeClient.ChangeColor(deviceId, model, r, g, b);
         }
 
-        public Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness)
+        public async Task<HttpResponseMessage> SetDeviceBrightness(string deviceId, int brightness, string model)
         {
-            throw new NotImplementedException();
+            return await _goveeClient.ChangeBrightness(deviceId, model, brightness);
         }
 
-        public Task<HttpResponseMessage> TurnAllDevicesOff(List<string> deviceIds)
+        public async void TurnAllDevicesOff(Dictionary<string, string> deviceIdAndModelPairs)
         {
-            throw new NotImplementedException();
+            foreach (var device in deviceIdAndModelPairs)
+            {
+                await _goveeClient.TurnDeviceOff(device.Key, device.Value);
+            }
         }
 
-        public Task<HttpResponseMessage> TurnAllDevicesOn(List<string> deviceIds)
+        public async void TurnAllDevicesOn(Dictionary<string, string> deviceIdAndModelPairs)
         {
-            throw new NotImplementedException();
+            foreach (var device in deviceIdAndModelPairs)
+            {
+                await _goveeClient.TurnDeviceOn(device.Key, device.Value);
+            }
         }
     }
 }
