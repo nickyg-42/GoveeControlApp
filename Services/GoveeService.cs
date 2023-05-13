@@ -12,12 +12,12 @@ namespace GoveeControl.Services
             _goveeClient = goveeClient;
         }
 
-        public async Task<HttpResponseMessage> GetDevices()
+        public async Task<List<GoveeDevice>> GetDevices()
         {
             return await _goveeClient.GetDevices();
         }
 
-        public async Task<HttpResponseMessage> GetDeviceState(GoveeDevice device)
+        public async Task<DeviceState> GetDeviceState(GoveeDevice device)
         {
             return await _goveeClient.GetDeviceState(device);
         }
@@ -32,12 +32,12 @@ namespace GoveeControl.Services
             return await _goveeClient.TurnDeviceOff(device);
         }
 
-        public async Task<HttpResponseMessage> SetDeviceColor(GoveeDevice device, double r, double g, double b)
+        public async Task<HttpResponseMessage> SetDeviceColor(GoveeDevice device, Color color)
         {
-            return await _goveeClient.ChangeColor(device, r, g, b);
+            return await _goveeClient.ChangeColor(device, color);
         }
 
-        public async Task<HttpResponseMessage> SetDeviceBrightness(GoveeDevice device, double brightness)
+        public async Task<HttpResponseMessage> SetDeviceBrightness(GoveeDevice device, int brightness)
         {
             return await _goveeClient.ChangeBrightness(device, brightness);
         }

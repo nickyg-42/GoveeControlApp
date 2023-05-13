@@ -2,6 +2,7 @@ using System.Net;
 using GoveeControl.Interfaces;
 using GoveeControl.Models;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 namespace GoveeControl;
 
@@ -26,7 +27,8 @@ public partial class Home : Form
         // Get devices
         try
         {
-            _devices = await GetDevices();
+            _devices = await _goveeService.GetDevices();
+            int x = 5;
         }
         catch (Exception ex)
         {
@@ -35,51 +37,6 @@ public partial class Home : Form
 
         // Display devices
         // TODO
-    }
-
-    /// <summary>
-    /// Gets all devices for the user
-    /// </summary>
-    /// <returns>A list of type GoveeDevice representing all returned devices</returns>
-    /// <exception cref="Exception">Throws an exception if the request fails</exception>
-    private async Task<List<GoveeDevice>> GetDevices()
-    {
-        var devices = new List<GoveeDevice>();
-        var res = await _goveeService.GetDevices();
-
-        if (res.IsSuccessStatusCode) 
-        { 
-            string jsonString = await res.Content.ReadAsStringAsync();
-
-            var jsonObject = JObject.Parse(jsonString);
-
-            var parsedDevices = jsonObject["data"]!["devices"]!.ToArray();
-
-            foreach (var device in parsedDevices)
-            {
-                string deviceModel = device["model"]?.ToString() ?? "";
-                string deviceAddress = device["device"]?.ToString() ?? "";
-                bool controllable = device["controllable"]?.ToObject<bool>() ?? false;
-                bool retrievable = device["retrievable"]?.ToObject<bool>() ?? false;
-                List<string> supportCmds = ((device["supportCmds"] as JArray)?.Select(s => s?.ToString()).ToList() ?? new List<string>()!)!;
-                string deviceName = device["deviceName"]?.ToString() ?? "";
-
-                devices.Add(new GoveeDevice(
-                    deviceAddress,
-                    deviceModel,
-                    controllable,
-                    retrievable,
-                    supportCmds,
-                    deviceName
-                ));
-            }
-
-            return devices;
-        }
-        else
-        {
-            throw new Exception(HandleHttpError(res.StatusCode));
-        }
     }
 
     /// <summary>

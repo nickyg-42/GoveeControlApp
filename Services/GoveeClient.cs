@@ -2,6 +2,7 @@
 using GoveeControl.Interfaces;
 using GoveeControl.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GoveeControl.Services
 {
@@ -16,23 +17,20 @@ namespace GoveeControl.Services
         { 
             _requestService = requestService;
             _responseService = responseService;
-            _headers = new Dictionary<string, string>
-            {
-                // unsure why this causes an error as of now commenting it works
-                //{ "Content-Type", "application/json" },
-                { "Govee-API-Key", apiKey },
-            };
+            _headers = new Dictionary<string, string>{ { "Govee-API-Key", apiKey } };
         }
 
         /// <summary>
         /// Method to retrieve all devices
         /// </summary>
         /// <returns>A list of all devices</returns>
-        public async Task<HttpResponseMessage> GetDevices()
+        public async Task<List<GoveeDevice>> GetDevices()
         {
             string fullUrl = $"{_baseUrl}/devices";
 
-            return await _requestService.GetAsync(fullUrl, _headers);
+            var res = await _requestService.GetAsync(fullUrl, _headers);
+
+            return await _responseService.DeserializeIntoDeviceList(res);
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace GoveeControl.Services
         /// <param name="gVal">The "greem" pixel value</param>
         /// <param name="bVal">The "blue" pixel value</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> ChangeColor(GoveeDevice device, double rVal, double gVal, double bVal)
+        public async Task<HttpResponseMessage> ChangeColor(GoveeDevice device, Color color)
         {
             // r, g, and b can be 0-255
             string payload = CreatePayload(device, new
@@ -87,9 +85,9 @@ namespace GoveeControl.Services
                 name = "color",
                 value = new
                 {
-                    r = rVal,
-                    g = gVal,
-                    b = bVal,
+                    r = color.R,
+                    g = color.G,
+                    b = color.B,
                 }
             }); 
 
@@ -104,7 +102,7 @@ namespace GoveeControl.Services
         /// <param name="device">The Govee device object</param>
         /// <param name="brightness">The desired brightness value</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> ChangeBrightness(GoveeDevice device, double brightness)
+        public async Task<HttpResponseMessage> ChangeBrightness(GoveeDevice device, int brightness)
         {
             // brightness can be 0-100
             string payload = CreatePayload(device, new
@@ -123,13 +121,15 @@ namespace GoveeControl.Services
         /// </summary>
         /// <param name="device">The Govee device object</param>
         /// <returns>The response from the HTTP request</returns>
-        public async Task<HttpResponseMessage> GetDeviceState(GoveeDevice device)
+        public async Task<DeviceState> GetDeviceState(GoveeDevice device)
         {
             string payload = CreatePayload(device);
-
+            
             HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
 
-            return await MakeRequest("/devices/state", HttpMethod.Put, body);
+            var res = await MakeRequest("/devices/state", HttpMethod.Put, body);
+
+            return await _responseService.DeserializeIntoDeviceState(res);
         }
 
         /// <summary>

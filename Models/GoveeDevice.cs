@@ -19,6 +19,16 @@
             _deviceName = deviceName;
         }
 
+        public GoveeDevice() 
+        {
+            _deviceId = string.Empty;
+            _model = string.Empty;
+            _controllable = false;
+            _retrievable = false;
+            _supportCmds = new();
+            _deviceName = string.Empty;
+        }
+
         public string DeviceId 
         { 
             get { return _deviceId; }
