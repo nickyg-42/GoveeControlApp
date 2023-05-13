@@ -28,48 +28,22 @@ partial class Home
     /// </summary>
     private void InitializeComponent()
     {
-        button1 = new Button();
-        button2 = new Button();
         SuspendLayout();
-        // 
-        // button1
-        // 
-        button1.ForeColor = SystemColors.ActiveCaptionText;
-        button1.Location = new Point(220, 237);
-        button1.Name = "button1";
-        button1.Size = new Size(182, 79);
-        button1.TabIndex = 0;
-        button1.Text = "TurnON\r\n";
-        button1.UseVisualStyleBackColor = true;
-        button1.Click += Button1_Click_1;
-        // 
-        // button2
-        // 
-        button2.ForeColor = SystemColors.ActiveCaptionText;
-        button2.Location = new Point(608, 237);
-        button2.Name = "button2";
-        button2.Size = new Size(178, 79);
-        button2.TabIndex = 1;
-        button2.Text = "TurnOff";
-        button2.UseVisualStyleBackColor = true;
-        button2.Click += Button2_Click;
         // 
         // Home
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(9F, 21F);
         AutoScaleMode = AutoScaleMode.Font;
-        BackColor = SystemColors.ControlDarkDark;
-        ClientSize = new Size(1024, 615);
-        Controls.Add(button2);
-        Controls.Add(button1);
+        BackColor = Color.FromArgb(28, 30, 38);
+        ClientSize = new Size(920, 621);
+        Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
         ForeColor = SystemColors.ControlLightLight;
+        Margin = new Padding(4);
         Name = "Home";
+        ShowIcon = false;
         Text = "Govee Controller";
         ResumeLayout(false);
     }
 
     #endregion
-
-    private Button button1;
-    private Button button2;
 }
