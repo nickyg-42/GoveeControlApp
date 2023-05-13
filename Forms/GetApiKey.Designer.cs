@@ -37,6 +37,7 @@
             // 
             // apiKeyTextBox
             // 
+            apiKeyTextBox.Anchor = AnchorStyles.None;
             apiKeyTextBox.Location = new Point(91, 155);
             apiKeyTextBox.Name = "apiKeyTextBox";
             apiKeyTextBox.Size = new Size(181, 29);
@@ -44,6 +45,7 @@
             // 
             // enterButton
             // 
+            enterButton.Anchor = AnchorStyles.None;
             enterButton.ForeColor = SystemColors.ActiveCaptionText;
             enterButton.Location = new Point(299, 155);
             enterButton.Name = "enterButton";
@@ -55,6 +57,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Location = new Point(20, 159);
             label1.Name = "label1";
@@ -64,6 +67,7 @@
             // 
             // titleLabel
             // 
+            titleLabel.Anchor = AnchorStyles.None;
             titleLabel.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point);
             titleLabel.Location = new Point(12, 25);
             titleLabel.Name = "titleLabel";
@@ -74,6 +78,7 @@
             // 
             // errorLabel
             // 
+            errorLabel.Anchor = AnchorStyles.None;
             errorLabel.AutoSize = true;
             errorLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             errorLabel.ForeColor = Color.DarkRed;

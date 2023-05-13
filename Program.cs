@@ -12,19 +12,26 @@ static class Program
     [STAThread]
     static async Task Main()
     {
+        // Path to Settings.json
+        string settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.json");
+
+        // Initialize App
         ApplicationConfiguration.Initialize();
 
-        string apiKey = GetJsonApiKey();
+        string apiKey = GetJsonApiKey(settingsPath);
 
+        // Check if API key exists
         if (string.IsNullOrEmpty(apiKey))
         {
+            // If it does not, prompt user for key
             GetApiKey getApiKey = new();
 
             if (getApiKey.ShowDialog() == DialogResult.OK)
             {
                 apiKey = getApiKey.GetApiKeyText();
                 
-                SetApiKey(apiKey);
+                // Write key to json
+                SetApiKey(apiKey, settingsPath);
             }
             else
             {
@@ -40,6 +47,7 @@ static class Program
         var goveeClient = new GoveeClient(requestService, jsonResponseService, apiKey);
         var goveeService = new GoveeService(goveeClient);
 
+        // Start main app
         Application.Run(new Home(goveeService));
     }
     
@@ -47,9 +55,9 @@ static class Program
     /// Helper to read the API key from json
     /// </summary>
     /// <returns>A string representation of the json API key</returns>
-    private static string GetJsonApiKey()
+    private static string GetJsonApiKey(string path)
     {
-        string jsonString = File.ReadAllText("../../../Settings.json");
+        string jsonString = File.ReadAllText(path);
         JObject json = JObject.Parse(jsonString);
         
         return json["ApiKey"]!.ToString();
@@ -59,13 +67,13 @@ static class Program
     /// Helper to set the json API key to the desired string
     /// </summary>
     /// <param name="apiKey">The string representation of the new API key value</param>
-    private static void SetApiKey(string apiKey)
+    private static void SetApiKey(string apiKey, string path)
     {
-        string jsonString = File.ReadAllText("../../../Settings.json");
+        string jsonString = File.ReadAllText(path);
         JObject json = JObject.Parse(jsonString);
 
         json["ApiKey"] = apiKey;
 
-        File.WriteAllText("../../../Settings.json", json.ToString());
+        File.WriteAllText(path, json.ToString());
     }
 }

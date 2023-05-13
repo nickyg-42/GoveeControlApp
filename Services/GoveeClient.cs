@@ -12,12 +12,6 @@ namespace GoveeControl.Services
         private readonly string _baseUrl = "https://developer-api.govee.com/v1";
         private readonly Dictionary<string, string> _headers;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="requestService">Dependency</param>
-        /// <param name="responseService">Dependency</param>
-        /// <param name="apiKey">Govee API Key</param>
         public GoveeClient(IRequestService requestService, IResponseService responseService, string apiKey) 
         { 
             _requestService = requestService;

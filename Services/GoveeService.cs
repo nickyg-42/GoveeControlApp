@@ -42,6 +42,11 @@ namespace GoveeControl.Services
             return await _goveeClient.ChangeBrightness(device, brightness);
         }
 
+        /// <summary>
+        /// Loops through the list and calls the TurnDeviceOff method per device
+        /// </summary>
+        /// <param name="devices">A list of type GoveeDevice</param>
+        /// <returns>A list of HTTP responses, one for each request</returns>
         public async Task<List<HttpResponseMessage>> TurnAllDevicesOff(List<GoveeDevice> devices)
         {
             var tasks = devices.Select(device => _goveeClient.TurnDeviceOff(device)).ToList();
@@ -49,6 +54,11 @@ namespace GoveeControl.Services
             return tasks.Select(task => task.Result).ToList();
         }
 
+        /// <summary>
+        /// Loops through the list and calls the TurnDeviceOn method per device
+        /// </summary>
+        /// <param name="devices">A list of type GoveeDevice</param>
+        /// <returns>A list of HTTP responses, one for each request</returns>
         public async Task<List<HttpResponseMessage>> TurnAllDevicesOn(List<GoveeDevice> devices)
         {
             var tasks = devices.Select(device => _goveeClient.TurnDeviceOn(device)).ToList();

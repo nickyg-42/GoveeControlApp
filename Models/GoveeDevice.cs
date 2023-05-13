@@ -7,14 +7,16 @@
         private bool _controllable;
         private bool _retrievable;
         private List<string> _supportCmds;
+        private string _deviceName;
 
-        public GoveeDevice(string deviceId, string model, bool controllable, bool retrievable, List<string> supportCmds)
+        public GoveeDevice(string deviceId, string model, bool controllable, bool retrievable, List<string> supportCmds, string deviceName)
         {
             _deviceId = deviceId;
             _model = model;
             _controllable = controllable;
             _retrievable = retrievable;
-            _supportCmds = supportCmds; 
+            _supportCmds = supportCmds;
+            _deviceName = deviceName;
         }
 
         public string DeviceId 
@@ -45,6 +47,12 @@
         { 
             get { return _supportCmds; }
             set { _supportCmds = value; } 
+        }
+
+        public string DeviceName
+        {
+            get { return _deviceName; }
+            set { _deviceName = value; }
         }
     }
 }

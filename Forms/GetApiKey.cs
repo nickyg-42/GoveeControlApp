@@ -1,8 +1,4 @@
-﻿using System.Windows.Forms;
-using GoveeControl.Interfaces;
-using GoveeControl.Services;
-
-namespace GoveeControl.Forms
+﻿namespace GoveeControl.Forms
 {
     public partial class GetApiKey : Form
     {
@@ -11,14 +7,22 @@ namespace GoveeControl.Forms
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Helper to return textbox content
+        /// </summary>
+        /// <returns></returns>
         public string GetApiKeyText()
         {
             return apiKeyTextBox.Text;
         }
 
+        /// <summary>
+        /// Enter button click event, validates API key
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
         private async void EnterButton_Click(object sender, EventArgs e)
         {
-
             bool valid = await TestApiKey(apiKeyTextBox.Text);
 
             if (valid)

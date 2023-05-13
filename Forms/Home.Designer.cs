@@ -42,6 +42,7 @@ partial class Home
         Name = "Home";
         ShowIcon = false;
         Text = "Govee Controller";
+        Load += Home_Load;
         ResumeLayout(false);
     }
 
