@@ -1,6 +1,6 @@
 using GoveeControl.Services;
 using Newtonsoft.Json.Linq;
-using GoveeControl.Forms;
+using GoveeControl.Forms.WindowsForms;
 
 namespace GoveeControl;
 

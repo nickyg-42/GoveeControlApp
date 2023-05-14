@@ -1,4 +1,4 @@
-﻿namespace GoveeControl.Forms
+﻿namespace GoveeControl.Forms.WindowsForms
 {
     partial class GetApiKey
     {

@@ -1,4 +1,4 @@
-﻿namespace GoveeControl.Forms
+﻿namespace GoveeControl.Forms.UserControls
 {
     partial class GoveeDeviceUserControl
     {
