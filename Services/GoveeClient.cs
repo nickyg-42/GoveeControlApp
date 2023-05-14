@@ -1,8 +1,8 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using GoveeControl.Interfaces;
 using GoveeControl.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace GoveeControl.Services
 {
@@ -30,7 +30,8 @@ namespace GoveeControl.Services
 
             var res = await _requestService.GetAsync(fullUrl, _headers);
 
-            return await _responseService.DeserializeIntoDeviceList(res);
+            if (res.IsSuccessStatusCode) return await _responseService.DeserializeIntoDeviceList(res);
+            else throw new HttpRequestException(HandleHttpError(res.StatusCode));
         }
 
         /// <summary>
@@ -179,7 +180,39 @@ namespace GoveeControl.Services
         {
             string fullUrl = $"{_baseUrl}{endpoint}";
 
-            return await _requestService.SendAsync(fullUrl, _headers, method, content);
+            var res = await _requestService.SendAsync(fullUrl, _headers, method, content);
+            if (res.IsSuccessStatusCode) return res;
+            else throw new HttpRequestException(HandleHttpError(res.StatusCode));
+        }
+
+        /// <summary>
+        /// Helper method to generate a string based on the HTTP error code
+        /// </summary>
+        /// <param name="code">HTTP error code</param>
+        /// <returns>A string specific to the error code</returns>
+        private static string HandleHttpError(HttpStatusCode code)
+        {
+            string exceptionText = "Unknown error occured";
+
+            switch ((int)code)
+            {
+                case 403:
+                    exceptionText = "403: Invalid API key. Please verify your API key is accurate in the settings.";
+                    break;
+                case 500:
+                    exceptionText = "500: Internal server error. Please try again later.";
+                    break;
+                case 400:
+                    exceptionText = "400: Invalid parameter detected.";
+                    break;
+                case 401:
+                    exceptionText = "401: Invalid API key. Please verify your API key is accurate in the settings.";
+                    break;
+                default:
+                    break;
+            }
+
+            return exceptionText;
         }
     }
 }
