@@ -23,6 +23,8 @@
         /// <param name="e">Default</param>
         private async void EnterButton_Click(object sender, EventArgs e)
         {
+            EnterButton.Enabled = false;
+
             bool valid = await TestApiKey(apiKeyTextBox.Text);
 
             if (valid)
@@ -34,6 +36,8 @@
             {
                 errorLabel.Visible = true;
             }
+
+            EnterButton.Enabled = true;
         }
 
         /// <summary>

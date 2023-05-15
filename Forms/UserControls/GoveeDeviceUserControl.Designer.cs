@@ -30,67 +30,86 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GoveeDeviceUserControl));
             deviceName = new Label();
-            powerBtn = new Button();
-            brightnessSlider = new TrackBar();
-            ((System.ComponentModel.ISupportInitialize)brightnessSlider).BeginInit();
+            PowerBtn = new Button();
+            BrightnessSlider = new TrackBar();
+            ColorBtn = new Button();
+            ((System.ComponentModel.ISupportInitialize)BrightnessSlider).BeginInit();
             SuspendLayout();
             // 
             // deviceName
             // 
             deviceName.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
-            deviceName.ForeColor = SystemColors.ControlDark;
+            deviceName.ForeColor = SystemColors.AppWorkspace;
             deviceName.Location = new Point(20, 22);
             deviceName.Name = "deviceName";
             deviceName.Size = new Size(166, 62);
             deviceName.TabIndex = 0;
-            deviceName.Text = "RGBIC Floor Lamp";
+            deviceName.Text = "Placeholder";
             // 
-            // powerBtn
+            // PowerBtn
             // 
-            powerBtn.BackColor = Color.Transparent;
-            powerBtn.BackgroundImage = (Image)resources.GetObject("powerBtn.BackgroundImage");
-            powerBtn.BackgroundImageLayout = ImageLayout.Zoom;
-            powerBtn.Cursor = Cursors.Hand;
-            powerBtn.FlatAppearance.BorderSize = 0;
-            powerBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
-            powerBtn.FlatAppearance.MouseOverBackColor = Color.Gray;
-            powerBtn.FlatStyle = FlatStyle.Flat;
-            powerBtn.Location = new Point(192, 22);
-            powerBtn.Name = "powerBtn";
-            powerBtn.Size = new Size(52, 45);
-            powerBtn.TabIndex = 1;
-            powerBtn.UseVisualStyleBackColor = false;
+            PowerBtn.BackColor = Color.Transparent;
+            PowerBtn.BackgroundImage = (Image)resources.GetObject("PowerBtn.BackgroundImage");
+            PowerBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            PowerBtn.Cursor = Cursors.Hand;
+            PowerBtn.FlatAppearance.BorderSize = 0;
+            PowerBtn.FlatAppearance.MouseDownBackColor = Color.Gray;
+            PowerBtn.FlatAppearance.MouseOverBackColor = Color.Gray;
+            PowerBtn.FlatStyle = FlatStyle.Flat;
+            PowerBtn.Location = new Point(192, 22);
+            PowerBtn.Name = "PowerBtn";
+            PowerBtn.Size = new Size(52, 45);
+            PowerBtn.TabIndex = 1;
+            PowerBtn.UseVisualStyleBackColor = false;
+            PowerBtn.Click += PowerBtn_Click_1;
             // 
-            // brightnessSlider
+            // BrightnessSlider
             // 
-            brightnessSlider.AutoSize = false;
-            brightnessSlider.Cursor = Cursors.Hand;
-            brightnessSlider.LargeChange = 1;
-            brightnessSlider.Location = new Point(20, 104);
-            brightnessSlider.Maximum = 100;
-            brightnessSlider.Name = "brightnessSlider";
-            brightnessSlider.Size = new Size(238, 24);
-            brightnessSlider.TabIndex = 2;
-            brightnessSlider.TickStyle = TickStyle.None;
+            BrightnessSlider.AutoSize = false;
+            BrightnessSlider.Cursor = Cursors.Hand;
+            BrightnessSlider.LargeChange = 1;
+            BrightnessSlider.Location = new Point(20, 105);
+            BrightnessSlider.Maximum = 100;
+            BrightnessSlider.Name = "BrightnessSlider";
+            BrightnessSlider.Size = new Size(190, 24);
+            BrightnessSlider.TabIndex = 2;
+            BrightnessSlider.TickStyle = TickStyle.None;
+            BrightnessSlider.MouseUp += BrightnessSlider_MouseUp;
+            // 
+            // ColorBtn
+            // 
+            ColorBtn.BackColor = Color.Transparent;
+            ColorBtn.BackgroundImage = (Image)resources.GetObject("ColorBtn.BackgroundImage");
+            ColorBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            ColorBtn.FlatAppearance.BorderSize = 0;
+            ColorBtn.FlatStyle = FlatStyle.Flat;
+            ColorBtn.Location = new Point(216, 105);
+            ColorBtn.Name = "ColorBtn";
+            ColorBtn.Size = new Size(28, 24);
+            ColorBtn.TabIndex = 3;
+            ColorBtn.UseVisualStyleBackColor = false;
+            ColorBtn.Click += ColorBtn_Click;
             // 
             // GoveeDeviceUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(59, 66, 82);
-            Controls.Add(brightnessSlider);
-            Controls.Add(powerBtn);
+            Controls.Add(ColorBtn);
+            Controls.Add(BrightnessSlider);
+            Controls.Add(PowerBtn);
             Controls.Add(deviceName);
             Name = "GoveeDeviceUserControl";
             Size = new Size(268, 148);
-            ((System.ComponentModel.ISupportInitialize)brightnessSlider).EndInit();
+            ((System.ComponentModel.ISupportInitialize)BrightnessSlider).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Label deviceName;
-        private Button powerBtn;
-        private TrackBar brightnessSlider;
+        private Button PowerBtn;
+        private TrackBar BrightnessSlider;
+        private Button ColorBtn;
     }
 }

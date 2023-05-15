@@ -1,5 +1,8 @@
 ﻿namespace GoveeControl.Models
 {
+    /// <summary>
+    /// Model representing the properties of a device
+    /// </summary>
     public class GoveeDevice
     {
         private string _deviceId;

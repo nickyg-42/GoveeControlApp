@@ -1,5 +1,8 @@
 ﻿namespace GoveeControl.Models
 {
+    /// <summary>
+    /// Model representing the state of a device
+    /// </summary>
     public class DeviceState
     {
         private bool _online;

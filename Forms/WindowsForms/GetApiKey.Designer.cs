@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             apiKeyTextBox = new TextBox();
-            enterButton = new Button();
+            EnterButton = new Button();
             label1 = new Label();
             titleLabel = new Label();
             errorLabel = new Label();
@@ -43,17 +43,17 @@
             apiKeyTextBox.Size = new Size(181, 29);
             apiKeyTextBox.TabIndex = 0;
             // 
-            // enterButton
+            // EnterButton
             // 
-            enterButton.Anchor = AnchorStyles.None;
-            enterButton.ForeColor = SystemColors.ActiveCaptionText;
-            enterButton.Location = new Point(299, 155);
-            enterButton.Name = "enterButton";
-            enterButton.Size = new Size(56, 29);
-            enterButton.TabIndex = 1;
-            enterButton.Text = "Enter";
-            enterButton.UseVisualStyleBackColor = true;
-            enterButton.Click += EnterButton_Click;
+            EnterButton.Anchor = AnchorStyles.None;
+            EnterButton.ForeColor = SystemColors.ActiveCaptionText;
+            EnterButton.Location = new Point(299, 155);
+            EnterButton.Name = "EnterButton";
+            EnterButton.Size = new Size(56, 29);
+            EnterButton.TabIndex = 1;
+            EnterButton.Text = "Enter";
+            EnterButton.UseVisualStyleBackColor = true;
+            EnterButton.Click += EnterButton_Click;
             // 
             // label1
             // 
@@ -91,7 +91,7 @@
             // 
             // GetApiKey
             // 
-            AcceptButton = enterButton;
+            AcceptButton = EnterButton;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
@@ -99,7 +99,7 @@
             Controls.Add(errorLabel);
             Controls.Add(titleLabel);
             Controls.Add(label1);
-            Controls.Add(enterButton);
+            Controls.Add(EnterButton);
             Controls.Add(apiKeyTextBox);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             ForeColor = SystemColors.ControlLightLight;
@@ -114,7 +114,7 @@
         #endregion
 
         private TextBox apiKeyTextBox;
-        private Button enterButton;
+        private Button EnterButton;
         private Label label1;
         private Label titleLabel;
         private Label errorLabel;

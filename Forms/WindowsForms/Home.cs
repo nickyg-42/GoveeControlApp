@@ -1,3 +1,4 @@
+using GoveeControl.Forms.UserControls;
 using GoveeControl.Interfaces;
 using GoveeControl.Models;
 
@@ -33,7 +34,25 @@ namespace GoveeControl.Forms.WindowsForms
             }
 
             // Display devices
-            // TODO
+            foreach (var device in _devices)
+            {
+                try
+                {
+                    // Get current device state
+                    DeviceState currState = await _goveeService.GetDeviceState(device);
+
+                    // Create UI element
+                    GoveeDeviceUserControl deviceUserControl = new(_goveeService, device, currState);
+                    deviceUserControl.Margin = new Padding(0, 10, 20, 10);
+
+                    DevicesPanel.Controls.Add(deviceUserControl);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Failed to get device state");
+                    return;
+                }
+            }
         }
     }
 }

@@ -66,12 +66,12 @@ namespace GoveeControl.Services
             JObject resObject = JObject.Parse(resData);
             JArray properties = (JArray)resObject["data"]!["properties"]!;
 
-            bool online = !properties["online"]!.ToString().Equals("false");
-            int powerState = properties["powerState"]!.ToString().Equals("off") ? 0 : 1;
-            int brightness = properties["brightness"]!.ToObject<int>();
-            int r = properties["color"]!["r"]!.ToObject<int>();
-            int g = properties["color"]!["g"]!.ToObject<int>();
-            int b = properties["color"]!["b"]!.ToObject<int>();
+            bool online = !properties[0]["online"]!.ToString().Equals("false");
+            int powerState = properties[1]["powerState"]!.ToString().Equals("off") ? 0 : 1;
+            int brightness = (int)properties[2]!["brightness"]!;
+            int r = (int)properties[3]!["color"]!["r"]!;
+            int g = (int)properties[3]!["color"]!["g"]!;
+            int b = (int)properties[3]!["color"]!["b"]!;
             Color color = Color.FromArgb(r, g, b);
 
             return new DeviceState(online, powerState, brightness, color);

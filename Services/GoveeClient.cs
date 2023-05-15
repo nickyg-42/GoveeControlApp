@@ -80,7 +80,6 @@ namespace GoveeControl.Services
         /// <returns>The response from the HTTP request</returns>
         public async Task<HttpResponseMessage> ChangeColor(GoveeDevice device, Color color)
         {
-            // r, g, and b can be 0-255
             string payload = CreatePayload(device, new
             {
                 name = "color",
@@ -105,7 +104,6 @@ namespace GoveeControl.Services
         /// <returns>The response from the HTTP request</returns>
         public async Task<HttpResponseMessage> ChangeBrightness(GoveeDevice device, int brightness)
         {
-            // brightness can be 0-100
             string payload = CreatePayload(device, new
             {
                 name = "brightness",
@@ -124,13 +122,12 @@ namespace GoveeControl.Services
         /// <returns>The response from the HTTP request</returns>
         public async Task<DeviceState> GetDeviceState(GoveeDevice device)
         {
-            string payload = CreatePayload(device);
-            
-            HttpContent body = new StringContent(payload, Encoding.UTF8, "application/json");
+            string fullUrl = $"{_baseUrl}/devices/state?device={device.DeviceId}&model={device.Model}";
 
-            var res = await MakeRequest("/devices/state", HttpMethod.Put, body);
+            var res = await _requestService.GetAsync(fullUrl, _headers);
 
-            return await _responseService.DeserializeIntoDeviceState(res);
+            if (res.IsSuccessStatusCode) return await _responseService.DeserializeIntoDeviceState(res);
+            else throw new HttpRequestException(HandleHttpError(res.StatusCode));
         }
 
         /// <summary>
@@ -146,23 +143,6 @@ namespace GoveeControl.Services
                 ""device"": ""{device.DeviceId}"",
                 ""model"": ""{device.Model}"",
                 ""cmd"": {JsonConvert.SerializeObject(cmd)}
-            }}
-            ";
-
-            return payload;
-        }
-
-        /// <summary>
-        /// Helper method to create payloads
-        /// </summary>
-        /// <param name="device">The Govee device object</param>
-        /// <returns>The created payload as a string</returns>
-        private static string CreatePayload(GoveeDevice device)
-        {
-            string payload = $@"
-            {{
-                ""device"": ""{device.DeviceId}"",
-                ""model"": ""{device.Model}""
             }}
             ";
 
