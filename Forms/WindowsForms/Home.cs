@@ -54,5 +54,32 @@ namespace GoveeControl.Forms.WindowsForms
                 }
             }
         }
+
+        /// <summary>
+        /// Redirects to the settings Form and hides current Form
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void SettingsBtn_Click(object sender, EventArgs e)
+        {
+            Settings settingsPage = new(_goveeService);
+            settingsPage.StartPosition = FormStartPosition.Manual;
+            settingsPage.Location = new Point(this.Location.X + (this.Width - settingsPage.Width) / 2, this.Location.Y + (this.Height - settingsPage.Height) / 2);
+            settingsPage.Show();
+            this.Hide();
+        }
+
+        /// <summary>
+        /// Method to stop app upon form closure
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void Home_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

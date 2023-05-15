@@ -12,6 +12,7 @@ namespace GoveeControl.Interfaces
         Task<HttpResponseMessage> SetDeviceBrightness(GoveeDevice device, int brightness);
         Task<List<HttpResponseMessage>> TurnAllDevicesOff(List<GoveeDevice> devices);
         Task<List<HttpResponseMessage>> TurnAllDevicesOn(List<GoveeDevice> devices);
+        void SetApiKey(string newApiKey);
     }
 }
  

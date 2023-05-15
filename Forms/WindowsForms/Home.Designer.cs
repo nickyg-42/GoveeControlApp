@@ -31,8 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             label1 = new Label();
             panel1 = new Panel();
-            button1 = new Button();
+            SettingsBtn = new Button();
             DevicesPanel = new FlowLayoutPanel();
+            LocationLabel = new Label();
+            panel2 = new Panel();
             SuspendLayout();
             // 
             // label1
@@ -55,19 +57,20 @@
             panel1.Size = new Size(884, 1);
             panel1.TabIndex = 1;
             // 
-            // button1
+            // SettingsBtn
             // 
-            button1.BackColor = Color.Transparent;
-            button1.BackgroundImage = (Image)resources.GetObject("button1.BackgroundImage");
-            button1.BackgroundImageLayout = ImageLayout.Zoom;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = SystemColors.ActiveCaption;
-            button1.Location = new Point(869, 28);
-            button1.Name = "button1";
-            button1.Size = new Size(39, 38);
-            button1.TabIndex = 3;
-            button1.UseVisualStyleBackColor = false;
+            SettingsBtn.BackColor = Color.Transparent;
+            SettingsBtn.BackgroundImage = (Image)resources.GetObject("SettingsBtn.BackgroundImage");
+            SettingsBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            SettingsBtn.FlatAppearance.BorderSize = 0;
+            SettingsBtn.FlatStyle = FlatStyle.Flat;
+            SettingsBtn.ForeColor = SystemColors.ActiveCaption;
+            SettingsBtn.Location = new Point(869, 28);
+            SettingsBtn.Name = "SettingsBtn";
+            SettingsBtn.Size = new Size(39, 38);
+            SettingsBtn.TabIndex = 3;
+            SettingsBtn.UseVisualStyleBackColor = false;
+            SettingsBtn.Click += SettingsBtn_Click;
             // 
             // DevicesPanel
             // 
@@ -76,14 +79,34 @@
             DevicesPanel.Size = new Size(884, 517);
             DevicesPanel.TabIndex = 4;
             // 
+            // LocationLabel
+            // 
+            LocationLabel.AutoSize = true;
+            LocationLabel.ForeColor = SystemColors.AppWorkspace;
+            LocationLabel.Location = new Point(357, 37);
+            LocationLabel.Name = "LocationLabel";
+            LocationLabel.Size = new Size(63, 21);
+            LocationLabel.TabIndex = 5;
+            LocationLabel.Text = "Devices";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.Gray;
+            panel2.Location = new Point(338, 37);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1, 26);
+            panel2.TabIndex = 6;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
             ClientSize = new Size(920, 621);
+            Controls.Add(panel2);
+            Controls.Add(LocationLabel);
             Controls.Add(DevicesPanel);
-            Controls.Add(button1);
+            Controls.Add(SettingsBtn);
             Controls.Add(panel1);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -92,6 +115,7 @@
             Name = "Home";
             ShowIcon = false;
             Text = "Govee Controller";
+            FormClosing += Home_FormClosing;
             Load += Home_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -101,7 +125,9 @@
 
         private Label label1;
         private Panel panel1;
-        private Button button1;
+        private Button SettingsBtn;
         private FlowLayoutPanel DevicesPanel;
+        private Label LocationLabel;
+        private Panel panel2;
     }
 }

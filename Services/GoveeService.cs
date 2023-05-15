@@ -65,5 +65,10 @@ namespace GoveeControl.Services
             await Task.WhenAll(tasks);
             return tasks.Select(task => task.Result).ToList();
         }
+
+        public void SetApiKey(string newApiKey)
+        {
+            _goveeClient.SetApiKey(newApiKey);
+        }
     }
 }

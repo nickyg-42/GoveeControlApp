@@ -13,11 +13,11 @@ namespace GoveeControl.Services
         private readonly string _baseUrl = "https://developer-api.govee.com/v1";
         private readonly Dictionary<string, string> _headers;
 
-        public GoveeClient(IRequestService requestService, IResponseService responseService, string apiKey) 
-        { 
+        public GoveeClient(IRequestService requestService, IResponseService responseService, string apiKey)
+        {
             _requestService = requestService;
             _responseService = responseService;
-            _headers = new Dictionary<string, string>{ { "Govee-API-Key", apiKey } };
+            _headers = new Dictionary<string, string> { { "Govee-API-Key", apiKey } };
         }
 
         /// <summary>
@@ -193,6 +193,15 @@ namespace GoveeControl.Services
             }
 
             return exceptionText;
+        }
+
+        /// <summary>
+        /// Helper to update the API key
+        /// </summary>
+        /// <param name="newApiKey">New API key value</param>
+        public void SetApiKey(string newApiKey)
+        {
+            _headers["Govee-API-Key"] = newApiKey;
         }
     }
 }

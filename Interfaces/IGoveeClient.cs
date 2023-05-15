@@ -10,5 +10,6 @@ namespace GoveeControl.Interfaces
         Task<HttpResponseMessage> ChangeColor(GoveeDevice device, Color color);
         Task<HttpResponseMessage> ChangeBrightness(GoveeDevice device, int brightness);
         Task<DeviceState> GetDeviceState(GoveeDevice device);
+        void SetApiKey(string newApiKey);
     }
 }
