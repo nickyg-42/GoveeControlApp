@@ -17,3 +17,4 @@ or any of its subsidiaries or its affiliates. The official Govee website can be 
 # TO-DO
 * Add device grouping ability
 * Add JSON file reader/writer
+* Add NUnit tests
