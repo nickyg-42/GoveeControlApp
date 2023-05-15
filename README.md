@@ -2,7 +2,8 @@
 Dotnet WinForms Application to control Govee light fixtures
 
 # Installation
-Download and run the executable
+* Download the zip and extract it
+* Launch the executable
 
 # How to Obtain Govee API Key 
 * Download the Govee mobile app
