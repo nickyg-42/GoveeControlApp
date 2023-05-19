@@ -21,8 +21,11 @@ obj/
 *.vssscc
 *.dll.refresh
 *.gpState
+
+# Project
 UpgradeLog.xml
 FodyWeavers.xml
 FodyWeavers.xsd
 light-bulb_46866.ico
 Properties/PublishProfiles/FolderProfile.pubxml
+Settings.json
