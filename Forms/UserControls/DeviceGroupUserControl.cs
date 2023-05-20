@@ -10,7 +10,7 @@ namespace GoveeControl.Forms.UserControls
     /// </summary>
     public partial class DeviceGroupUserControl : UserControl
     {
-        private JsonHandler _jsonHandler = new();
+        private readonly JsonHandler _jsonHandler = new();
         private readonly IGoveeService _goveeService;
         private DeviceGroup _group;
         private bool _on = false;
@@ -114,8 +114,12 @@ namespace GoveeControl.Forms.UserControls
         /// <param name="e">Default</param>
         private void TrashBtn_Click(object sender, EventArgs e)
         {
-            // TODO - Prompt if user is sure
-            _jsonHandler.DeleteGroup(_group.Id);
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                _jsonHandler.DeleteGroup(_group.Id);
+            }            
         }
     }
 }
