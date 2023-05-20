@@ -6,13 +6,22 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>light-bulb_46866.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Icons\light-bulb_46866.ico</ApplicationIcon>
     <StartupObject>GoveeControl.Program</StartupObject>
 	<PublishSingleFile>true</PublishSingleFile>
+	<SignAssembly>False</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="light-bulb_46866.ico" />
+    <Content Include="Assets\Icons\light-bulb_46866.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\UserControls\AddGroupUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\UserControls\DeviceGroupUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

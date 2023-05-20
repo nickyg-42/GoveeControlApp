@@ -1,4 +1,5 @@
-﻿using GoveeControl.Interfaces;
+﻿using System.Runtime.CompilerServices;
+using GoveeControl.Interfaces;
 using GoveeControl.Models;
 
 namespace GoveeControl.Services
@@ -43,25 +44,51 @@ namespace GoveeControl.Services
         }
 
         /// <summary>
-        /// Loops through the list and calls the TurnDeviceOff method per device
+        /// Loops through the groups devices and calls the TurnDeviceOff method per device
         /// </summary>
-        /// <param name="devices">A list of type GoveeDevice</param>
+        /// <param name="group">A DeviceGroup object</param>
         /// <returns>A list of HTTP responses, one for each request</returns>
-        public async Task<List<HttpResponseMessage>> TurnAllDevicesOff(List<GoveeDevice> devices)
+        public async Task<List<HttpResponseMessage>> TurnMultipleDevicesOff(DeviceGroup group)
         {
-            var tasks = devices.Select(device => _goveeClient.TurnDeviceOff(device)).ToList();
+            var tasks = group.Devices.Select(device => TurnDeviceOff(device)).ToList();
             await Task.WhenAll(tasks);
             return tasks.Select(task => task.Result).ToList();
         }
 
         /// <summary>
-        /// Loops through the list and calls the TurnDeviceOn method per device
+        /// Loops through the groups devices and calls the TurnDeviceOn method per device
         /// </summary>
-        /// <param name="devices">A list of type GoveeDevice</param>
+        /// <param name="group">A DeviceGroup object</param>
         /// <returns>A list of HTTP responses, one for each request</returns>
-        public async Task<List<HttpResponseMessage>> TurnAllDevicesOn(List<GoveeDevice> devices)
+        public async Task<List<HttpResponseMessage>> TurnMultipleDevicesOn(DeviceGroup group)
         {
-            var tasks = devices.Select(device => _goveeClient.TurnDeviceOn(device)).ToList();
+            var tasks = group.Devices.Select(device => TurnDeviceOn(device)).ToList();
+            await Task.WhenAll(tasks);
+            return tasks.Select(task => task.Result).ToList();
+        }
+
+        /// <summary>
+        /// Loops through the group devices and changes each brightness value
+        /// </summary>
+        /// <param name="group">DeviceGroup object</param>
+        /// <param name="brightness">Integer brightness value</param>
+        /// <returns>A list of HTTP responses, one for each request</returns>
+        public async Task<List<HttpResponseMessage>> SetGroupBrightness(DeviceGroup group, int brightness)
+        {
+            var tasks = group.Devices.Select(device => SetDeviceBrightness(device, brightness)).ToList();
+            await Task.WhenAll(tasks);
+            return tasks.Select(task => task.Result).ToList();
+        }
+
+        /// <summary>
+        /// Loops through the group devices and changes each color value
+        /// </summary>
+        /// <param name="group">DeviceGroup object</param>
+        /// <param name="color">Color value</param>
+        /// <returns>A list of HTTP responses, one for each request</returns>
+        public async Task<List<HttpResponseMessage>> SetGroupColor(DeviceGroup group, Color color)
+        {
+            var tasks = group.Devices.Select(device => SetDeviceColor(device, color)).ToList();
             await Task.WhenAll(tasks);
             return tasks.Select(task => task.Result).ToList();
         }

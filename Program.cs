@@ -1,6 +1,7 @@
 using GoveeControl.Services;
-using Newtonsoft.Json.Linq;
 using GoveeControl.Forms.WindowsForms;
+using GoveeControl.Json;
+using GoveeControl.Models;
 
 namespace GoveeControl;
 
@@ -12,13 +13,13 @@ static class Program
     [STAThread]
     static async Task Main()
     {
-        // Path to Settings.json
-        string settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.json");
+        // Create JSON Handler object
+        JsonHandler jsonHandler = new();
 
         // Initialize App
         ApplicationConfiguration.Initialize();
 
-        string apiKey = GetJsonApiKey(settingsPath);
+        string apiKey = jsonHandler.ReadValue("ApiKey");
 
         // Check if API key exists
         if (string.IsNullOrEmpty(apiKey))
@@ -29,9 +30,9 @@ static class Program
             if (getApiKey.ShowDialog() == DialogResult.OK)
             {
                 apiKey = getApiKey.GetApiKeyText();
-                
+
                 // Write key to json
-                SetApiKey(apiKey, settingsPath);
+                jsonHandler.WriteValue("ApiKey", apiKey);
             }
             else
             {
@@ -49,31 +50,5 @@ static class Program
 
         // Start main app
         Application.Run(new Home(goveeService));
-    }
-    
-    /// <summary>
-    /// Helper to read the API key from json
-    /// </summary>
-    /// <returns>A string representation of the json API key</returns>
-    private static string GetJsonApiKey(string path)
-    {
-        string jsonString = File.ReadAllText(path);
-        JObject json = JObject.Parse(jsonString);
-        
-        return json["ApiKey"]!.ToString();
-    }
-
-    /// <summary>
-    /// Helper to set the json API key to the desired string
-    /// </summary>
-    /// <param name="apiKey">The string representation of the new API key value</param>
-    private static void SetApiKey(string apiKey, string path)
-    {
-        string jsonString = File.ReadAllText(path);
-        JObject json = JObject.Parse(jsonString);
-
-        json["ApiKey"] = apiKey;
-
-        File.WriteAllText(path, json.ToString());
     }
 }

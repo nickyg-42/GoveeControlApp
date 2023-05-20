@@ -54,7 +54,7 @@
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Location = new Point(24, 76);
             panel1.Name = "panel1";
-            panel1.Size = new Size(884, 1);
+            panel1.Size = new Size(925, 1);
             panel1.TabIndex = 1;
             // 
             // SettingsBtn
@@ -65,7 +65,7 @@
             SettingsBtn.FlatAppearance.BorderSize = 0;
             SettingsBtn.FlatStyle = FlatStyle.Flat;
             SettingsBtn.ForeColor = SystemColors.ActiveCaption;
-            SettingsBtn.Location = new Point(869, 28);
+            SettingsBtn.Location = new Point(910, 31);
             SettingsBtn.Name = "SettingsBtn";
             SettingsBtn.Size = new Size(39, 38);
             SettingsBtn.TabIndex = 3;
@@ -74,9 +74,9 @@
             // 
             // DevicesPanel
             // 
-            DevicesPanel.Location = new Point(24, 92);
+            DevicesPanel.Location = new Point(107, 92);
             DevicesPanel.Name = "DevicesPanel";
-            DevicesPanel.Size = new Size(884, 517);
+            DevicesPanel.Size = new Size(904, 517);
             DevicesPanel.TabIndex = 4;
             // 
             // LocationLabel
@@ -102,7 +102,7 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
-            ClientSize = new Size(920, 621);
+            ClientSize = new Size(980, 621);
             Controls.Add(panel2);
             Controls.Add(LocationLabel);
             Controls.Add(DevicesPanel);

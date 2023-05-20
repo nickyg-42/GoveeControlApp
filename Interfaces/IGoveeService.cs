@@ -10,8 +10,10 @@ namespace GoveeControl.Interfaces
         Task<HttpResponseMessage> TurnDeviceOff(GoveeDevice device);
         Task<HttpResponseMessage> SetDeviceColor(GoveeDevice device, Color color);
         Task<HttpResponseMessage> SetDeviceBrightness(GoveeDevice device, int brightness);
-        Task<List<HttpResponseMessage>> TurnAllDevicesOff(List<GoveeDevice> devices);
-        Task<List<HttpResponseMessage>> TurnAllDevicesOn(List<GoveeDevice> devices);
+        Task<List<HttpResponseMessage>> TurnGroupOff(DeviceGroup group);
+        Task<List<HttpResponseMessage>> TurnGroupOn(DeviceGroup group);
+        Task<List<HttpResponseMessage>> SetGroupBrightness(DeviceGroup group, int brightness);
+        Task<List<HttpResponseMessage>> SetGroupColor(DeviceGroup group, Color color);
         void SetApiKey(string newApiKey);
     }
 }

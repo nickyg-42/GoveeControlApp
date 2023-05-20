@@ -39,7 +39,7 @@ namespace GoveeControl.Forms.UserControls
         /// </summary>
         /// <param name="sender">Default</param>
         /// <param name="e">Default</param>
-        private void ColorBtn_Click(object sender, EventArgs e)
+        private async void ColorBtn_Click(object sender, EventArgs e)
         {
             ColorBtn.Enabled = false;
 
@@ -49,15 +49,22 @@ namespace GoveeControl.Forms.UserControls
             }
             else
             {
-                ColorDialog colorDialog = new();
-                colorDialog.FullOpen = true;
-                DialogResult result = colorDialog.ShowDialog();
-
-                if (result == DialogResult.OK)
+                try
                 {
-                    Color color = colorDialog.Color;
-                    _goveeService.SetDeviceColor(_device, color);
-                    _state.Color = color;
+                    ColorDialog colorDialog = new();
+                    colorDialog.FullOpen = true;
+                    DialogResult result = colorDialog.ShowDialog();
+
+                    if (result == DialogResult.OK)
+                    {
+                        Color color = colorDialog.Color;
+                        await _goveeService.SetDeviceColor(_device, color);
+                        _state.Color = color;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
 
@@ -79,15 +86,22 @@ namespace GoveeControl.Forms.UserControls
             }
             else
             {
-                if (_state.PowerState == 0)
+                try
                 {
-                    await _goveeService.TurnDeviceOn(_device);
-                    _state.PowerState = 1;
+                    if (_state.PowerState == 0)
+                    {
+                        await _goveeService.TurnDeviceOn(_device);
+                        _state.PowerState = 1;
+                    }
+                    else
+                    {
+                        await _goveeService.TurnDeviceOff(_device);
+                        _state.PowerState = 0;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await _goveeService.TurnDeviceOff(_device);
-                    _state.PowerState = 0;
+                    MessageBox.Show(ex.Message);
                 }
             }
 
