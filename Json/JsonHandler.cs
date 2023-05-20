@@ -42,7 +42,7 @@ namespace GoveeControl.Json
             JObject json = Read();
             JArray groups = (JArray)json["Groups"]!;
 
-            if (groups.Count <= 0) throw new Exception("No groups found");
+            if (groups.Count <= 0) return new List<DeviceGroup>();
 
             List<DeviceGroup> groupsList = new();
 

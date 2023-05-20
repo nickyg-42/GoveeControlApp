@@ -109,7 +109,7 @@
             // 
             ApiKeyTextBox.BackColor = SystemColors.AppWorkspace;
             ApiKeyTextBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            ApiKeyTextBox.Location = new Point(174, 104);
+            ApiKeyTextBox.Location = new Point(174, 103);
             ApiKeyTextBox.Name = "ApiKeyTextBox";
             ApiKeyTextBox.Size = new Size(306, 29);
             ApiKeyTextBox.TabIndex = 15;

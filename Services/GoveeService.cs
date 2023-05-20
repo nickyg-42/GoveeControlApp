@@ -48,7 +48,7 @@ namespace GoveeControl.Services
         /// </summary>
         /// <param name="group">A DeviceGroup object</param>
         /// <returns>A list of HTTP responses, one for each request</returns>
-        public async Task<List<HttpResponseMessage>> TurnMultipleDevicesOff(DeviceGroup group)
+        public async Task<List<HttpResponseMessage>> TurnGroupOff(DeviceGroup group)
         {
             var tasks = group.Devices.Select(device => TurnDeviceOff(device)).ToList();
             await Task.WhenAll(tasks);
@@ -60,7 +60,7 @@ namespace GoveeControl.Services
         /// </summary>
         /// <param name="group">A DeviceGroup object</param>
         /// <returns>A list of HTTP responses, one for each request</returns>
-        public async Task<List<HttpResponseMessage>> TurnMultipleDevicesOn(DeviceGroup group)
+        public async Task<List<HttpResponseMessage>> TurnGroupOn(DeviceGroup group)
         {
             var tasks = group.Devices.Select(device => TurnDeviceOn(device)).ToList();
             await Task.WhenAll(tasks);

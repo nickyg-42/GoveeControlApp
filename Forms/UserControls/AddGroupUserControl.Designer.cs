@@ -54,9 +54,10 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
+            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(AddBtn);
             Name = "AddGroupUserControl";
-            Size = new Size(268, 148);
+            Size = new Size(266, 146);
             ResumeLayout(false);
         }
 

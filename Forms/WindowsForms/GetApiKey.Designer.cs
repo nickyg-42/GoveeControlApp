@@ -59,6 +59,7 @@
             // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
+            label1.ForeColor = SystemColors.AppWorkspace;
             label1.Location = new Point(20, 159);
             label1.Name = "label1";
             label1.Size = new Size(65, 21);
@@ -69,6 +70,7 @@
             // 
             titleLabel.Anchor = AnchorStyles.None;
             titleLabel.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point);
+            titleLabel.ForeColor = SystemColors.AppWorkspace;
             titleLabel.Location = new Point(12, 25);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(388, 89);

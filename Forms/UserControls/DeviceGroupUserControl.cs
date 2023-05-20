@@ -14,6 +14,7 @@ namespace GoveeControl.Forms.UserControls
         private readonly IGoveeService _goveeService;
         private DeviceGroup _group;
         private bool _on = false;
+        public event EventHandler? ButtonClick;
 
         public DeviceGroupUserControl(IGoveeService goveeService, DeviceGroup group)
         {
@@ -22,7 +23,7 @@ namespace GoveeControl.Forms.UserControls
             _group = group;
 
             GroupName.Text = _group.GroupName;
-            DeviceCount.Text = _group.Devices.Count.ToString();
+            DeviceCount.Text = _group.Devices.Count.ToString() + " devices";
             BrightnessSlider.Value = 50;
         }
 
@@ -105,6 +106,8 @@ namespace GoveeControl.Forms.UserControls
             }
 
             BrightnessSlider.Enabled = true;
+
+            // TODO ADD CATCH ONLY WORK IF ALL LIGHTS IN GROUP ON
         }
 
         /// <summary>
@@ -119,7 +122,16 @@ namespace GoveeControl.Forms.UserControls
             if (result == DialogResult.Yes)
             {
                 _jsonHandler.DeleteGroup(_group.Id);
+                OnButtonClick();
             }            
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnButtonClick()
+        {
+            ButtonClick?.Invoke(this, EventArgs.Empty);
         }
     }
 }

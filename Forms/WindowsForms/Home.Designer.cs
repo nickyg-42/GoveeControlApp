@@ -33,8 +33,12 @@
             panel1 = new Panel();
             SettingsBtn = new Button();
             DevicesPanel = new FlowLayoutPanel();
+            GroupControlPanel = new FlowLayoutPanel();
             LocationLabel = new Label();
             panel2 = new Panel();
+            DevicesLabel = new Label();
+            GroupsLabel = new Label();
+            panel3 = new Panel();
             SuspendLayout();
             // 
             // label1
@@ -54,7 +58,7 @@
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Location = new Point(24, 76);
             panel1.Name = "panel1";
-            panel1.Size = new Size(925, 1);
+            panel1.Size = new Size(940, 1);
             panel1.TabIndex = 1;
             // 
             // SettingsBtn
@@ -65,7 +69,7 @@
             SettingsBtn.FlatAppearance.BorderSize = 0;
             SettingsBtn.FlatStyle = FlatStyle.Flat;
             SettingsBtn.ForeColor = SystemColors.ActiveCaption;
-            SettingsBtn.Location = new Point(910, 31);
+            SettingsBtn.Location = new Point(925, 31);
             SettingsBtn.Name = "SettingsBtn";
             SettingsBtn.Size = new Size(39, 38);
             SettingsBtn.TabIndex = 3;
@@ -74,10 +78,17 @@
             // 
             // DevicesPanel
             // 
-            DevicesPanel.Location = new Point(107, 92);
+            DevicesPanel.Location = new Point(126, 92);
             DevicesPanel.Name = "DevicesPanel";
-            DevicesPanel.Size = new Size(904, 517);
+            DevicesPanel.Size = new Size(882, 517);
             DevicesPanel.TabIndex = 4;
+            // 
+            // GroupControlPanel
+            // 
+            GroupControlPanel.Location = new Point(126, 92);
+            GroupControlPanel.Name = "GroupControlPanel";
+            GroupControlPanel.Size = new Size(882, 517);
+            GroupControlPanel.TabIndex = 5;
             // 
             // LocationLabel
             // 
@@ -97,12 +108,47 @@
             panel2.Size = new Size(1, 26);
             panel2.TabIndex = 6;
             // 
+            // DevicesLabel
+            // 
+            DevicesLabel.Cursor = Cursors.Hand;
+            DevicesLabel.ForeColor = SystemColors.AppWorkspace;
+            DevicesLabel.Location = new Point(12, 102);
+            DevicesLabel.Name = "DevicesLabel";
+            DevicesLabel.Size = new Size(89, 21);
+            DevicesLabel.TabIndex = 7;
+            DevicesLabel.Text = "   Devices";
+            DevicesLabel.Click += DevicesLabel_Click;
+            // 
+            // GroupsLabel
+            // 
+            GroupsLabel.Cursor = Cursors.Hand;
+            GroupsLabel.ForeColor = SystemColors.AppWorkspace;
+            GroupsLabel.Location = new Point(12, 137);
+            GroupsLabel.Name = "GroupsLabel";
+            GroupsLabel.Size = new Size(89, 21);
+            GroupsLabel.TabIndex = 8;
+            GroupsLabel.Text = "   Groups";
+            GroupsLabel.Click += GroupsLabel_Click;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.FromArgb(64, 64, 64);
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Location = new Point(100, 76);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1, 530);
+            panel3.TabIndex = 2;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
             ClientSize = new Size(980, 621);
+            Controls.Add(GroupControlPanel);
+            Controls.Add(panel3);
+            Controls.Add(GroupsLabel);
+            Controls.Add(DevicesLabel);
             Controls.Add(panel2);
             Controls.Add(LocationLabel);
             Controls.Add(DevicesPanel);
@@ -129,5 +175,9 @@
         private FlowLayoutPanel DevicesPanel;
         private Label LocationLabel;
         private Panel panel2;
+        private Label DevicesLabel;
+        private Label GroupsLabel;
+        private Panel panel3;
+        private FlowLayoutPanel GroupControlPanel;
     }
 }

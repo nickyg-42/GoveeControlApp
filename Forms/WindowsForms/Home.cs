@@ -1,5 +1,6 @@
 using GoveeControl.Forms.UserControls;
 using GoveeControl.Interfaces;
+using GoveeControl.Json;
 using GoveeControl.Models;
 
 namespace GoveeControl.Forms.WindowsForms
@@ -8,6 +9,8 @@ namespace GoveeControl.Forms.WindowsForms
     {
         private readonly IGoveeService _goveeService;
         private List<GoveeDevice> _devices = new();
+        private List<DeviceGroup> _groups = new();
+        private readonly JsonHandler _jsonHandler = new();
 
         public Home(IGoveeService goveeService)
         {
@@ -16,12 +19,57 @@ namespace GoveeControl.Forms.WindowsForms
         }
 
         /// <summary>
+        /// Event handler to handle button press in user control
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void AddGroupUserControl_ButtonClick(object sender, EventArgs e)
+        {
+            // Prompt user to create group
+            AddGroupForm addPopup = new(_devices);
+            addPopup.StartPosition = FormStartPosition.CenterParent;
+            addPopup.ShowDialog();
+
+            // Refresh groups after
+            LoadGroups();
+        }
+
+        /// <summary>
+        /// Helper to refresh parent window upon deletion
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void DeviceGroupUserControl_ButtonClick(object sender, EventArgs e)
+        {
+            LoadGroups();
+        }
+
+        /// <summary>
         /// Method to setup data on form load
         /// </summary>
         /// <param name="sender">Default</param>
         /// <param name="e">Default</param>
-        private async void Home_Load(object sender, EventArgs e)
+        private void Home_Load(object sender, EventArgs e)
         {
+            // start out with devices selected
+            DevicesLabel.Text = "\u2022 Devices";
+            DevicesLabel.Font = new Font(DevicesLabel.Font, FontStyle.Bold);
+            LocationLabel.Text = "Devices";
+
+            GroupControlPanel.Visible = false;
+            DevicesPanel.Visible = true;
+
+            LoadDevices();
+            LoadGroups();
+        }
+
+        /// <summary>
+        /// Helper to load devices, extracted for reusability
+        /// </summary>
+        private async void LoadDevices()
+        {
+            DevicesPanel.Controls.Clear();
+
             // Get devices
             try
             {
@@ -56,6 +104,36 @@ namespace GoveeControl.Forms.WindowsForms
         }
 
         /// <summary>
+        /// Helper to load groups, reusable
+        /// </summary>
+        private void LoadGroups()
+        {
+            GroupControlPanel.Controls.Clear();
+
+            AddGroupUserControl addOption = new();
+            addOption.ButtonClick += AddGroupUserControl_ButtonClick!;
+            addOption.Margin = new Padding(0, 10, 20, 10);
+
+            // Get groups
+            _groups = _jsonHandler.ReadGroups();
+
+            // Display groups (if any)
+            if (_groups != null && _groups.Count > 0)
+            {
+                foreach (var group in _groups)
+                {
+                    DeviceGroupUserControl deviceGroup = new(_goveeService, group);
+                    deviceGroup.Margin = new Padding(0, 10, 20, 10);
+                    deviceGroup.ButtonClick += DeviceGroupUserControl_ButtonClick!;
+
+                    GroupControlPanel.Controls.Add(deviceGroup);
+                }
+            }
+
+            GroupControlPanel.Controls.Add(addOption);
+        }
+
+        /// <summary>
         /// Redirects to the settings Form and hides current Form
         /// </summary>
         /// <param name="sender">Default</param>
@@ -80,6 +158,46 @@ namespace GoveeControl.Forms.WindowsForms
             {
                 Application.Exit();
             }
+        }
+
+        /// <summary>
+        /// Helper to load devices and update GUI
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void DevicesLabel_Click(object sender, EventArgs e)
+        {
+            LoadDevices();
+
+            GroupControlPanel.Visible = false;
+            DevicesPanel.Visible = true;
+            LocationLabel.Text = "Devices";
+
+            DevicesLabel.Text = "\u2022 Devices";
+            DevicesLabel.Font = new Font(DevicesLabel.Font, FontStyle.Bold);
+
+            GroupsLabel.Text = "   Groups";
+            GroupsLabel.Font = new Font(GroupsLabel.Font, FontStyle.Regular);
+        }
+
+        /// <summary>
+        /// Helper to load groups and update GUI
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void GroupsLabel_Click(object sender, EventArgs e)
+        {
+            LoadGroups();
+
+            DevicesPanel.Visible = false;
+            GroupControlPanel.Visible = true;
+            LocationLabel.Text = "Groups";
+
+            GroupsLabel.Text = "\u2022 Groups";
+            GroupsLabel.Font = new Font(GroupsLabel.Font, FontStyle.Bold);
+
+            DevicesLabel.Text = "   Devices";
+            DevicesLabel.Font = new Font(DevicesLabel.Font, FontStyle.Regular);
         }
     }
 }
