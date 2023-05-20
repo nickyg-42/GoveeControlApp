@@ -16,6 +16,4 @@ This application is not affiliated, associated, authorized, endorsed by, or in a
 or any of its subsidiaries or its affiliates. The official Govee website can be found at https://www.govee.com/.
 
 # TO-DO
-* Add device grouping ability
-* Add JSON file reader/writer
 * Add NUnit tests
