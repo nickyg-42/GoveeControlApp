@@ -68,15 +68,16 @@
             // 
             // CheckBoxPanel
             // 
+            CheckBoxPanel.FlowDirection = FlowDirection.TopDown;
             CheckBoxPanel.Location = new Point(26, 116);
             CheckBoxPanel.Name = "CheckBoxPanel";
-            CheckBoxPanel.Size = new Size(246, 276);
+            CheckBoxPanel.Size = new Size(246, 215);
             CheckBoxPanel.TabIndex = 3;
             // 
             // AddGroupBtn
             // 
             AddGroupBtn.BackColor = Color.White;
-            AddGroupBtn.Location = new Point(26, 418);
+            AddGroupBtn.Location = new Point(26, 357);
             AddGroupBtn.Name = "AddGroupBtn";
             AddGroupBtn.Size = new Size(75, 23);
             AddGroupBtn.TabIndex = 4;
@@ -87,7 +88,7 @@
             // CancelBtn
             // 
             CancelBtn.FlatAppearance.BorderColor = Color.FromArgb(0, 0, 0, 0);
-            CancelBtn.Location = new Point(117, 418);
+            CancelBtn.Location = new Point(124, 357);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(75, 23);
             CancelBtn.TabIndex = 5;
@@ -100,7 +101,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
-            ClientSize = new Size(331, 461);
+            ClientSize = new Size(331, 404);
             Controls.Add(CancelBtn);
             Controls.Add(AddGroupBtn);
             Controls.Add(CheckBoxPanel);

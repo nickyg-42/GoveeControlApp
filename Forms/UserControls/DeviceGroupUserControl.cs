@@ -1,7 +1,6 @@
 ﻿using GoveeControl.Interfaces;
 using GoveeControl.Json;
 using GoveeControl.Models;
-using static System.Windows.Forms.AxHost;
 
 namespace GoveeControl.Forms.UserControls
 {
@@ -13,7 +12,7 @@ namespace GoveeControl.Forms.UserControls
         private readonly JsonHandler _jsonHandler = new();
         private readonly IGoveeService _goveeService;
         private DeviceGroup _group;
-        private bool _on = false;
+        private bool _on;
         public event EventHandler? ButtonClick;
 
         public DeviceGroupUserControl(IGoveeService goveeService, DeviceGroup group)
@@ -25,6 +24,30 @@ namespace GoveeControl.Forms.UserControls
             GroupName.Text = _group.GroupName;
             DeviceCount.Text = _group.Devices.Count.ToString() + " devices";
             BrightnessSlider.Value = 50;
+        }
+
+
+        /// <summary>
+        /// Load method to retrieve device states
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void DeviceGroupUserControl_Load(object sender, EventArgs e)
+        {
+            List<DeviceState> states = new();
+
+            foreach (var device in _group.Devices) states.Add(await _goveeService.GetDeviceState(device));
+
+            foreach (DeviceState state in states)
+            {
+                if (state.PowerState == 0)
+                {
+                    _on = false;
+                    return;
+                }
+            }
+
+            _on = true;
         }
 
         /// <summary>
@@ -97,8 +120,16 @@ namespace GoveeControl.Forms.UserControls
 
             try
             {
-                int newBrightness = BrightnessSlider.Value;
-                await _goveeService.SetGroupBrightness(_group, newBrightness);
+                if (_on)
+                {
+                    int newBrightness = BrightnessSlider.Value;
+                    await _goveeService.SetGroupBrightness(_group, newBrightness);
+                }
+                else
+                {
+                    MessageBox.Show("Please turn all lights in group on to adjust brightness", "Error");
+                    BrightnessSlider.Value = 50;
+                }
             }
             catch (Exception ex)
             {
@@ -106,8 +137,6 @@ namespace GoveeControl.Forms.UserControls
             }
 
             BrightnessSlider.Enabled = true;
-
-            // TODO ADD CATCH ONLY WORK IF ALL LIGHTS IN GROUP ON
         }
 
         /// <summary>
@@ -123,7 +152,7 @@ namespace GoveeControl.Forms.UserControls
             {
                 _jsonHandler.DeleteGroup(_group.Id);
                 OnButtonClick();
-            }            
+            }
         }
 
         /// <summary>

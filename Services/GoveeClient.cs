@@ -172,7 +172,9 @@ namespace GoveeControl.Services
         /// <returns>A string specific to the error code</returns>
         private static string HandleHttpError(HttpStatusCode code)
         {
-            string exceptionText = "Unknown error occured";
+            string exceptionText = "Too many requests! Please wait 30 seconds.\n\n" +
+                "The application can only make 60 requests per minute, anything above that will trigger this error.\n\n" +
+                "Group tasks utilize even more requests, since each device in the group sends a separate request.";
 
             switch ((int)code)
             {

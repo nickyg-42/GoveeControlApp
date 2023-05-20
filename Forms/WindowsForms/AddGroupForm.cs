@@ -20,7 +20,9 @@ namespace GoveeControl.Forms.WindowsForms
                 CheckBox tempBox = new()
                 {
                     Text = device.DeviceName,
-                    Name = device.DeviceId
+                    Name = device.DeviceId,
+                    ForeColor = SystemColors.AppWorkspace,
+                    AutoSize = true,
                 };
 
                 CheckBoxPanel.Controls.Add(tempBox);
