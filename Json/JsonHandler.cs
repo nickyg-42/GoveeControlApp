@@ -11,24 +11,37 @@ namespace GoveeControl.Json
         /// Method to read a singular value from JSON
         /// </summary>
         /// <param name="key">The key to read from</param>
-        /// <returns>The JSON value as a string</returns>
-        public string ReadValue(string key)
+        /// <returns>The T Json value</returns>
+        public T ReadValue<T>(string key)
         {
             JObject json = Read();
 
-            return json[key]?.ToString() ?? string.Empty;
+            JToken val = json[key]!;
+            if (val != null)
+            {
+                try
+                {
+                    return val.ToObject<T>()!;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error reading value");
+                }
+            }
+
+            return default!;
         }
 
         /// <summary>
         /// Method to write a singular value to JSON
         /// </summary>
         /// <param name="key">The key to write to</param>
-        /// <param name="val">The string value to be written in JSON</param>
-        public void WriteValue(string key, string val)
+        /// <param name="val">The T value to be written in JSON</param>
+        public void WriteValue<T>(string key, T val)
         {
             JObject json = Read();
 
-            json[key] = val;
+            json[key] = JToken.FromObject(val!);
 
             File.WriteAllText(_path, json.ToString());
         }

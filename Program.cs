@@ -19,7 +19,7 @@ static class Program
         // Initialize App
         ApplicationConfiguration.Initialize();
 
-        string apiKey = jsonHandler.ReadValue("ApiKey");
+        string apiKey = jsonHandler.ReadValue<string>("ApiKey");
 
         // Check if API key exists
         if (string.IsNullOrEmpty(apiKey))
