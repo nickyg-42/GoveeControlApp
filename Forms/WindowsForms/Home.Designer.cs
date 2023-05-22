@@ -39,6 +39,7 @@
             DevicesLabel = new Label();
             GroupsLabel = new Label();
             panel3 = new Panel();
+            RefreshBtn = new Button();
             SuspendLayout();
             // 
             // label1
@@ -139,12 +140,28 @@
             panel3.Size = new Size(1, 530);
             panel3.TabIndex = 2;
             // 
+            // RefreshBtn
+            // 
+            RefreshBtn.BackColor = Color.Transparent;
+            RefreshBtn.BackgroundImage = (Image)resources.GetObject("RefreshBtn.BackgroundImage");
+            RefreshBtn.BackgroundImageLayout = ImageLayout.Zoom;
+            RefreshBtn.FlatAppearance.BorderSize = 0;
+            RefreshBtn.FlatStyle = FlatStyle.Flat;
+            RefreshBtn.ForeColor = SystemColors.ActiveCaption;
+            RefreshBtn.Location = new Point(439, 28);
+            RefreshBtn.Name = "RefreshBtn";
+            RefreshBtn.Size = new Size(39, 38);
+            RefreshBtn.TabIndex = 9;
+            RefreshBtn.UseVisualStyleBackColor = false;
+            RefreshBtn.Click += RefreshBtn_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 30, 38);
             ClientSize = new Size(980, 621);
+            Controls.Add(RefreshBtn);
             Controls.Add(GroupControlPanel);
             Controls.Add(panel3);
             Controls.Add(GroupsLabel);
@@ -179,5 +196,6 @@
         private Label GroupsLabel;
         private Panel panel3;
         private FlowLayoutPanel GroupControlPanel;
+        private Button RefreshBtn;
     }
 }

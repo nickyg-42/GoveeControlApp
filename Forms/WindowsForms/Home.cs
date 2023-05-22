@@ -11,6 +11,7 @@ namespace GoveeControl.Forms.WindowsForms
         private List<GoveeDevice> _devices = new();
         private List<DeviceGroup> _groups = new();
         private readonly JsonHandler _jsonHandler = new();
+        private Dictionary<GoveeDevice, DeviceState> _deviceStatePairs = new();
 
         public Home(IGoveeService goveeService)
         {
@@ -69,6 +70,7 @@ namespace GoveeControl.Forms.WindowsForms
         private async void LoadDevices()
         {
             DevicesPanel.Controls.Clear();
+            _deviceStatePairs.Clear();
 
             // Get devices
             try
@@ -88,6 +90,9 @@ namespace GoveeControl.Forms.WindowsForms
                 {
                     // Get current device state
                     DeviceState currState = await _goveeService.GetDeviceState(device);
+
+                    // Add device and its state to dictionary
+                    _deviceStatePairs.Add(device, currState);
 
                     // Create UI element
                     GoveeDeviceUserControl deviceUserControl = new(_goveeService, device, currState);
@@ -122,7 +127,12 @@ namespace GoveeControl.Forms.WindowsForms
             {
                 foreach (var group in _groups)
                 {
-                    DeviceGroupUserControl deviceGroup = new(_goveeService, group);
+                    List<DeviceState> states = _deviceStatePairs
+                        .Where(devPair => group.Devices.Contains(devPair.Key))
+                        .Select(devPair => devPair.Value)
+                        .ToList();
+
+                    DeviceGroupUserControl deviceGroup = new(_goveeService, group, states);
                     deviceGroup.Margin = new Padding(0, 10, 20, 10);
                     deviceGroup.ButtonClick += DeviceGroupUserControl_ButtonClick!;
 
@@ -167,8 +177,6 @@ namespace GoveeControl.Forms.WindowsForms
         /// <param name="e">Default</param>
         private void DevicesLabel_Click(object sender, EventArgs e)
         {
-            LoadDevices();
-
             GroupControlPanel.Visible = false;
             DevicesPanel.Visible = true;
             LocationLabel.Text = "Devices";
@@ -187,8 +195,6 @@ namespace GoveeControl.Forms.WindowsForms
         /// <param name="e">Default</param>
         private void GroupsLabel_Click(object sender, EventArgs e)
         {
-            LoadGroups();
-
             DevicesPanel.Visible = false;
             GroupControlPanel.Visible = true;
             LocationLabel.Text = "Groups";
@@ -198,6 +204,21 @@ namespace GoveeControl.Forms.WindowsForms
 
             DevicesLabel.Text = "   Devices";
             DevicesLabel.Font = new Font(DevicesLabel.Font, FontStyle.Regular);
+        }
+
+        /// <summary>
+        /// Button to reload devices, states, and groups
+        /// </summary>
+        /// <param name="sender">Default</param>
+        /// <param name="e">Default</param>
+        private void RefreshBtn_Click(object sender, EventArgs e)
+        {
+            RefreshBtn.Enabled = false;
+
+            LoadDevices();
+            LoadGroups();
+
+            RefreshBtn.Enabled = true;
         }
     }
 }

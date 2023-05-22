@@ -15,7 +15,7 @@ namespace GoveeControl.Forms.UserControls
         private bool _on;
         public event EventHandler? ButtonClick;
 
-        public DeviceGroupUserControl(IGoveeService goveeService, DeviceGroup group)
+        public DeviceGroupUserControl(IGoveeService goveeService, DeviceGroup group, List<DeviceState> states)
         {
             InitializeComponent();
             _goveeService = goveeService;
@@ -24,30 +24,8 @@ namespace GoveeControl.Forms.UserControls
             GroupName.Text = _group.GroupName;
             DeviceCount.Text = _group.Devices.Count.ToString() + " devices";
             BrightnessSlider.Value = 50;
-        }
 
-
-        /// <summary>
-        /// Load method to retrieve device states
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void DeviceGroupUserControl_Load(object sender, EventArgs e)
-        {
-            List<DeviceState> states = new();
-
-            foreach (var device in _group.Devices) states.Add(await _goveeService.GetDeviceState(device));
-
-            foreach (DeviceState state in states)
-            {
-                if (state.PowerState == 0)
-                {
-                    _on = false;
-                    return;
-                }
-            }
-
-            _on = true;
+            _on = states.All(state => state.PowerState == 1);
         }
 
         /// <summary>
