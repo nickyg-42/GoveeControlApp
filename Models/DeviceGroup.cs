@@ -1,16 +1,18 @@
-﻿namespace GoveeControl.Models
+﻿using GoveeControl.Json;
+
+namespace GoveeControl.Models
 {
     public class DeviceGroup
     {
-        private static int nextId = 1;
         private int _id;
         private string _groupName;
         private List<GoveeDevice> _devices;
+        private readonly JsonHandler _jsonHandler = new();
 
         public DeviceGroup(string groupName, List<GoveeDevice> devices)
         {
-            _id = nextId;
-            nextId++;
+            _id = Int32.Parse(_jsonHandler.ReadValue("CurrentId"));
+            _jsonHandler.WriteValue("CurrentId", (_id+1).ToString());
             _groupName = groupName;
             _devices = devices;
         }
