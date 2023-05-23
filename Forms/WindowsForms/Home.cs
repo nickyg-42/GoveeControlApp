@@ -50,6 +50,25 @@ namespace GoveeControl.Forms.WindowsForms
         }
 
         /// <summary>
+        /// Helper method to reload devices from class storage
+        /// </summary>
+        private void ReloadDevices()
+        {
+            DevicesPanel.Controls.Clear();
+
+            foreach (string key in _deviceStatePairs.Keys)
+            {
+                GoveeDeviceUserControl deviceUserControl = new(_goveeService, _devices.Where(dev => dev.DeviceId == key).Single(), _deviceStatePairs[key]);
+                deviceUserControl.Margin = new Padding(0, 10, 20, 10);
+                deviceUserControl.PowerButtonToggle += DeviceGroupUserControl_PowerButtonToggle;
+                deviceUserControl.BrightnessSliderAdjust += DeviceGroupUserControl_BrightnessSliderAdjust;
+                deviceUserControl.ColorButtonChange += DeviceGroupUserControl_ColorButtonChange;
+
+                DevicesPanel.Controls.Add(deviceUserControl);
+            }
+        }
+
+        /// <summary>
         /// Helper to refresh parent window upon deletion of group
         /// </summary>
         /// <param name="sender">Default</param>
@@ -66,12 +85,15 @@ namespace GoveeControl.Forms.WindowsForms
         /// <param name="e">Default</param>
         private void DeviceGroupUserControl_BrightnessSliderAdjust(object sender, CustomEventArgs.BrightnessSliderEventArgs e)
         {
-            var devices = GetDeviceStates(e.Group.Devices);
+            var devices = GetDeviceStates(e.Devices);
 
             foreach (string deviceId in devices)
             {
                 _deviceStatePairs[deviceId].Brightness = e.Brightness;
             }
+
+            LoadGroups();
+            ReloadDevices();
         }
 
         /// <summary>
@@ -81,12 +103,15 @@ namespace GoveeControl.Forms.WindowsForms
         /// <param name="e">Default</param>
         private void DeviceGroupUserControl_PowerButtonToggle(object sender, CustomEventArgs.PowerToggleEventArgs e)
         {
-            var devices = GetDeviceStates(e.Group.Devices);
+            var devices = GetDeviceStates(e.Devices);
 
             foreach (string deviceId in devices)
             {
                 _deviceStatePairs[deviceId].PowerState = e.PowerState;
             }
+
+            LoadGroups();
+            ReloadDevices();
         }
 
         /// <summary>
@@ -96,12 +121,15 @@ namespace GoveeControl.Forms.WindowsForms
         /// <param name="e">Default</param>
         private void DeviceGroupUserControl_ColorButtonChange(object sender, CustomEventArgs.ColorButtonEventArgs e)
         {
-            var devices = GetDeviceStates(e.Group.Devices);
+            var devices = GetDeviceStates(e.Devices);
 
             foreach (string deviceId in devices)
             {
                 _deviceStatePairs[deviceId].Color = e.Color;
             }
+
+            LoadGroups();
+            ReloadDevices();
         }
 
         /// <summary>
@@ -149,6 +177,9 @@ namespace GoveeControl.Forms.WindowsForms
                     // Create UI element
                     GoveeDeviceUserControl deviceUserControl = new(_goveeService, device, currState);
                     deviceUserControl.Margin = new Padding(0, 10, 20, 10);
+                    deviceUserControl.PowerButtonToggle += DeviceGroupUserControl_PowerButtonToggle;
+                    deviceUserControl.BrightnessSliderAdjust += DeviceGroupUserControl_BrightnessSliderAdjust;
+                    deviceUserControl.ColorButtonChange += DeviceGroupUserControl_ColorButtonChange;
 
                     DevicesPanel.Controls.Add(deviceUserControl);
                 }

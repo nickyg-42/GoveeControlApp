@@ -55,7 +55,7 @@ namespace GoveeControl.Forms.UserControls
                 {
                     Color color = colorDialog.Color;
                     await _goveeService.SetGroupColor(_group, color);
-                    OnColorChange(color, _group);
+                    OnColorChange(color, _group.Devices);
                 }
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace GoveeControl.Forms.UserControls
                     await _goveeService.TurnGroupOn(_group);
                 }
 
-                OnPowerToggle(_on ? 0 : 1, _group);
+                OnPowerToggle(_on ? 0 : 1, _group.Devices);
                 _on = !_on;
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace GoveeControl.Forms.UserControls
                 {
                     int newBrightness = BrightnessSlider.Value;
                     await _goveeService.SetGroupBrightness(_group, newBrightness);
-                    OnBrightnessAdjust(newBrightness, _group);
+                    OnBrightnessAdjust(newBrightness, _group.Devices);
                 }
                 else
                 {
@@ -155,12 +155,12 @@ namespace GoveeControl.Forms.UserControls
         /// <summary>
         /// Passes event handler to parent
         /// </summary>
-        protected virtual void OnBrightnessAdjust(int brightness, DeviceGroup group)
+        protected virtual void OnBrightnessAdjust(int brightness, List<GoveeDevice> devices)
         {
             CustomEventArgs.BrightnessSliderEventArgs args = new()
             {
                 Brightness = brightness,
-                Group = group
+                Devices = devices
             };
 
             BrightnessSliderAdjust?.Invoke(this, args);
@@ -169,12 +169,12 @@ namespace GoveeControl.Forms.UserControls
         /// <summary>
         /// Passes event handler to parent
         /// </summary>
-        protected virtual void OnColorChange(Color color, DeviceGroup group)
+        protected virtual void OnColorChange(Color color, List<GoveeDevice> devices)
         {
             CustomEventArgs.ColorButtonEventArgs args = new()
             {
                 Color = color,
-                Group = group
+                Devices = devices
             };
 
             ColorButtonChange?.Invoke(this, args);
@@ -183,12 +183,12 @@ namespace GoveeControl.Forms.UserControls
         /// <summary>
         /// Passes event handler to parent
         /// </summary>
-        protected virtual void OnPowerToggle(int powerState, DeviceGroup group)
+        protected virtual void OnPowerToggle(int powerState, List<GoveeDevice> devices)
         {
             CustomEventArgs.PowerToggleEventArgs args = new()
             {
                 PowerState = powerState,
-                Group = group
+                Devices = devices
             };
 
             PowerButtonToggle?.Invoke(this, args);

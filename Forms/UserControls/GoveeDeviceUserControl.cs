@@ -1,4 +1,5 @@
-﻿using GoveeControl.Interfaces;
+﻿using System.Drawing;
+using GoveeControl.Interfaces;
 using GoveeControl.Models;
 
 namespace GoveeControl.Forms.UserControls
@@ -11,6 +12,14 @@ namespace GoveeControl.Forms.UserControls
         private readonly IGoveeService _goveeService;
         private GoveeDevice _device;
         private DeviceState _state;
+
+        public delegate void BrightnessSliderAdjustEventHandler(object sender, CustomEventArgs.BrightnessSliderEventArgs e);
+        public delegate void PowerButtonToggleEventHandler(object sender, CustomEventArgs.PowerToggleEventArgs e);
+        public delegate void ColorButtonClickEventHandler(object sender, CustomEventArgs.ColorButtonEventArgs e);
+
+        public event BrightnessSliderAdjustEventHandler? BrightnessSliderAdjust;
+        public event PowerButtonToggleEventHandler? PowerButtonToggle;
+        public event ColorButtonClickEventHandler? ColorButtonChange;
 
         public GoveeDeviceUserControl(IGoveeService goveeService, GoveeDevice device, DeviceState state)
         {
@@ -60,6 +69,7 @@ namespace GoveeControl.Forms.UserControls
                         Color color = colorDialog.Color;
                         await _goveeService.SetDeviceColor(_device, color);
                         _state.Color = color;
+                        OnColorChange(color, new List<GoveeDevice>() { _device });
                     }
                 }
                 catch (Exception ex)
@@ -98,6 +108,8 @@ namespace GoveeControl.Forms.UserControls
                         await _goveeService.TurnDeviceOff(_device);
                         _state.PowerState = 0;
                     }
+
+                    OnPowerToggle(_state.PowerState, new List<GoveeDevice>() { _device });
                 }
                 catch (Exception ex)
                 {
@@ -129,6 +141,7 @@ namespace GoveeControl.Forms.UserControls
                     int newBrightness = BrightnessSlider.Value;
                     await _goveeService.SetDeviceBrightness(_device, newBrightness);
                     _state.Brightness = newBrightness;
+                    OnBrightnessAdjust(newBrightness, new List<GoveeDevice>() { _device });
                 }
                 catch (Exception ex)
                 {
@@ -137,6 +150,48 @@ namespace GoveeControl.Forms.UserControls
             }
 
             BrightnessSlider.Enabled = true;
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnBrightnessAdjust(int brightness, List<GoveeDevice> devices)
+        {
+            CustomEventArgs.BrightnessSliderEventArgs args = new()
+            {
+                Brightness = brightness,
+                Devices = devices
+            };
+
+            BrightnessSliderAdjust?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnColorChange(Color color, List<GoveeDevice> devices)
+        {
+            CustomEventArgs.ColorButtonEventArgs args = new()
+            {
+                Color = color,
+                Devices = devices
+            };
+
+            ColorButtonChange?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnPowerToggle(int powerState, List<GoveeDevice> devices)
+        {
+            CustomEventArgs.PowerToggleEventArgs args = new()
+            {
+                PowerState = powerState,
+                Devices = devices
+            };
+
+            PowerButtonToggle?.Invoke(this, args);
         }
     }
 }
