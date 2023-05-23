@@ -49,7 +49,7 @@ namespace GoveeControl.Forms.WindowsForms
                     {
                         isAtLeastOneChecked = true;
 
-                        groupDevices.Add(_devices.Where(dev => dev.DeviceId == checkBox.Name).First());
+                        groupDevices.Add(_devices.Where(dev => dev.DeviceId == checkBox.Name).Single());
                     }
                 }
 
@@ -58,7 +58,6 @@ namespace GoveeControl.Forms.WindowsForms
                 {
                     DeviceGroup newGroup = new(GroupNameText.Text, groupDevices);
                     _jsonHandler.WriteGroup(newGroup);
-                    // refresh home somehow
                     Close();
                 }
             }

@@ -132,7 +132,6 @@
             Controls.Add(GroupName);
             Name = "DeviceGroupUserControl";
             Size = new Size(268, 148);
-            Load += DeviceGroupUserControl_Load;
             ((System.ComponentModel.ISupportInitialize)BrightnessSlider).EndInit();
             ResumeLayout(false);
         }

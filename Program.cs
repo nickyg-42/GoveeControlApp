@@ -48,6 +48,7 @@ static class Program
         var goveeService = new GoveeService(goveeClient);
 
         // Start main app
-        Application.Run(new Home(goveeService));
+        Home home = new(goveeService);
+        Application.Run(home);
     }
 }

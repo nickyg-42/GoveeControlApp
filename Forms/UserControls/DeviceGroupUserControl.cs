@@ -13,7 +13,15 @@ namespace GoveeControl.Forms.UserControls
         private readonly IGoveeService _goveeService;
         private DeviceGroup _group;
         private bool _on;
-        public event EventHandler? ButtonClick;
+
+        public delegate void BrightnessSliderAdjustEventHandler(object sender, CustomEventArgs.BrightnessSliderEventArgs e);
+        public delegate void PowerButtonToggleEventHandler(object sender, CustomEventArgs.PowerToggleEventArgs e);
+        public delegate void ColorButtonClickEventHandler(object sender, CustomEventArgs.ColorButtonEventArgs e);
+
+        public event EventHandler? TrashButtonClick;
+        public event BrightnessSliderAdjustEventHandler? BrightnessSliderAdjust;
+        public event PowerButtonToggleEventHandler? PowerButtonToggle;
+        public event ColorButtonClickEventHandler? ColorButtonChange;
 
         public DeviceGroupUserControl(IGoveeService goveeService, DeviceGroup group, List<DeviceState> states)
         {
@@ -25,7 +33,7 @@ namespace GoveeControl.Forms.UserControls
             DeviceCount.Text = _group.Devices.Count.ToString() + " devices";
             BrightnessSlider.Value = 50;
 
-            _on = states.All(state => state.PowerState == 1);
+            _on = states.Count > 0 && states.All(state => state.PowerState == 1);
         }
 
         /// <summary>
@@ -47,6 +55,7 @@ namespace GoveeControl.Forms.UserControls
                 {
                     Color color = colorDialog.Color;
                     await _goveeService.SetGroupColor(_group, color);
+                    OnColorChange(color, _group);
                 }
             }
             catch (Exception ex)
@@ -77,6 +86,7 @@ namespace GoveeControl.Forms.UserControls
                     await _goveeService.TurnGroupOn(_group);
                 }
 
+                OnPowerToggle(_on ? 0 : 1, _group);
                 _on = !_on;
             }
             catch (Exception ex)
@@ -102,6 +112,7 @@ namespace GoveeControl.Forms.UserControls
                 {
                     int newBrightness = BrightnessSlider.Value;
                     await _goveeService.SetGroupBrightness(_group, newBrightness);
+                    OnBrightnessAdjust(newBrightness, _group);
                 }
                 else
                 {
@@ -129,16 +140,58 @@ namespace GoveeControl.Forms.UserControls
             if (result == DialogResult.Yes)
             {
                 _jsonHandler.DeleteGroup(_group.Id);
-                OnButtonClick();
+                OnTrashButtonClick();
             }
         }
 
         /// <summary>
         /// Passes event handler to parent
         /// </summary>
-        protected virtual void OnButtonClick()
+        protected virtual void OnTrashButtonClick()
         {
-            ButtonClick?.Invoke(this, EventArgs.Empty);
+            TrashButtonClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnBrightnessAdjust(int brightness, DeviceGroup group)
+        {
+            CustomEventArgs.BrightnessSliderEventArgs args = new()
+            {
+                Brightness = brightness,
+                Group = group
+            };
+
+            BrightnessSliderAdjust?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnColorChange(Color color, DeviceGroup group)
+        {
+            CustomEventArgs.ColorButtonEventArgs args = new()
+            {
+                Color = color,
+                Group = group
+            };
+
+            ColorButtonChange?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Passes event handler to parent
+        /// </summary>
+        protected virtual void OnPowerToggle(int powerState, DeviceGroup group)
+        {
+            CustomEventArgs.PowerToggleEventArgs args = new()
+            {
+                PowerState = powerState,
+                Group = group
+            };
+
+            PowerButtonToggle?.Invoke(this, args);
         }
     }
 }
