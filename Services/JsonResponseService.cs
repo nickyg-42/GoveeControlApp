@@ -69,11 +69,21 @@ namespace GoveeControl.Services
             bool online = !properties[0]["online"]!.ToString().Equals("false");
             int powerState = properties[1]["powerState"]!.ToString().Equals("off") ? 0 : 1;
             int brightness = (int)properties[2]!["brightness"]!;
-            int r = (int)properties[3]!["color"]!["r"]!;
-            int g = (int)properties[3]!["color"]!["g"]!;
-            int b = (int)properties[3]!["color"]!["b"]!;
-            Color color = Color.FromArgb(r, g, b);
 
+            Color color;
+
+            try
+            {
+                int r = (int)properties[3]!["color"]!["r"]!;
+                int g = (int)properties[3]!["color"]!["g"]!;
+                int b = (int)properties[3]!["color"]!["b"]!;
+                color = Color.FromArgb(r, g, b);
+            }
+            catch (Exception ex)
+            {
+                color = Color.White;
+            }
+            
             return new DeviceState(online, powerState, brightness, color);
         }
     }
